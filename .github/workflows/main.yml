@@ -33,5 +33,5 @@ jobs:
             'https://api.exchangeratesapi.io/latest?base=USD' | json_pp > forex-rates.json
           git config --global user.name $GITHUB_ACTOR
           git add forex-rates.json
-          git commit -m "Updated news headlines"
+          git commit -m "Updated USD exchange rates"
           git push
