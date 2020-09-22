@@ -86,7 +86,7 @@ const display = function(results) {
 
 // TODO: Provide a control to explicitly grab the latest exchange rates.
 
-  fetch("forex-rates.json")
+  fetch('https://raw.githubusercontent.com/ehom/forex-rates/cache/forex-rates.json')
   .then(response => response.json())
   .then(
     json => {
