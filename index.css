@@ -1,0 +1,16 @@
+body {
+  background: wheat;
+  font-size: 13pt;
+}
+
+table {
+  background: Linen;
+}
+
+.digit-display {
+  font-size: 18pt;
+}
+
+td {
+  text-align: right;
+}
