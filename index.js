@@ -61,7 +61,7 @@ const CurrencyFormat = function(prop) {
       );
     }
     return (
-      <>{element['value']}</>
+      <React.Fragment>{element['value']}</React.Fragment>
     );
   });
   
