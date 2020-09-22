@@ -86,15 +86,6 @@ const display = function(results) {
 
 // TODO: Provide a control to explicitly grab the latest exchange rates.
 
-let localStorage = window.localStorage;
-
-if (localStorage['results'] == false) {
-  // console.log('Using local storage');
-  display(
-    JSON.parse(localStorage['results'])
-  );
-} else {
-  
   fetch("https://raw.githubusercontent.com/ehom/forex-rates/master/forex-rates.json")
   .then(response => response.json())
   .then(
@@ -109,14 +100,3 @@ if (localStorage['results'] == false) {
     })
   .catch(error => console.log(error));
   
-  /*
-  $.getJSON('https://api.exchangeratesapi.io/latest?base=USD')
-    .then((results) => {
-      // don't need to see rate for base currency (USD)
-      delete results.rates['USD'];
-      localStorage.setItem('results', JSON.stringify(results));
-      display(results);
-    });
-    */
-}
-
