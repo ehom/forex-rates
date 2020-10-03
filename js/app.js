@@ -1,3 +1,5 @@
+URL = 'https://raw.githubusercontent.com/ehom/external-data/master/exchangeratesapi/forex-rates.json';
+
 const App = function(props) {
   // default properties?
   const {date, rates} = props.info;
@@ -86,11 +88,11 @@ const display = function(results) {
 
 // TODO: Provide a control to explicitly grab the latest exchange rates.
 
-  fetch('cache/forex-rates.json')
+  fetch(URL)
   .then(response => response.json())
   .then(
     json => {
-      console.log(json);
+      console.debug(json);
       return json;
     })
   .then(
