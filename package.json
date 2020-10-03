@@ -1,0 +1,25 @@
+{
+  "name": "forex-rates",
+  "version": "1.0.0",
+  "description": "display USD exchange rates",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx babel jsx --out-dir js --presets react-app/prod"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ehom/forex-rates.git"
+  },
+  "keywords": [],
+  "author": "ehom",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ehom/forex-rates/issues"
+  },
+  "homepage": "https://github.com/ehom/forex-rates#readme",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-react-app": "^3.1.2"
+  }
+}
