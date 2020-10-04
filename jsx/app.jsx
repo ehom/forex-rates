@@ -1,4 +1,4 @@
-URL = 'https://raw.githubusercontent.com/ehom/external-data/master/exchangeratesapi/forex-rates.json';
+const EXCHANGE_RATES = 'https://raw.githubusercontent.com/ehom/external-data/master/exchangeratesapi/forex-rates.json';
 
 const App = function(props) {
   // default properties?
@@ -11,13 +11,13 @@ const App = function(props) {
   
   const formatted = currencyCodes(rates).map((code) => {
     return (
-      <div class="col-sm-4">
-        <table class='table table-hover'>
+      <div className="col-sm-4">
+        <table className='table table-hover'>
           <tbody>
-            <tr><td class="pr-4">
+            <tr><td className="pr-4">
               <CurrencyFormat locale='en' displayType='name' currencyCode={code} value={rates[code]}/>
               </td></tr>
-            <tr><td class="pr-5">
+            <tr><td className="pr-5">
               <CurrencyFormat locale='en' displayType='code' currencyCode={code} value={rates[code]}/>
               </td></tr>
           </tbody>
@@ -29,7 +29,7 @@ const App = function(props) {
   return (
     <React.Fragment>
       <Motd date={date}/>
-      <div class='row'>{formatted}</div>
+      <div className='row'>{formatted}</div>
     </React.Fragment>
   );
 };
@@ -59,7 +59,7 @@ const CurrencyFormat = function(prop) {
   const formatted = parts.map((element) => {
     if (element['type'] !== 'currency') {
       return (
-        <span class='digit-display'>{element['value']}</span>
+        <span className='digit-display'>{element['value']}</span>
       );
     }
     return (
@@ -82,13 +82,7 @@ const display = function(results) {
 // TODO: undo hardcoding of USD so that we can 
 // view exchange rates for other currencies
 
-// TODO: Compare today's date and the date of what's in
-// the localStorage.
-// Grab new copy if dates are different.
-
-// TODO: Provide a control to explicitly grab the latest exchange rates.
-
-  fetch(URL)
+  fetch(EXCHANGE_RATES)
   .then(response => response.json())
   .then(
     json => {
