@@ -1,4 +1,4 @@
-URL = 'https://raw.githubusercontent.com/ehom/external-data/master/exchangeratesapi/forex-rates.json';
+var EXCHANGE_RATES = 'https://raw.githubusercontent.com/ehom/external-data/master/exchangeratesapi/forex-rates.json';
 
 var App = function App(props) {
   // default properties?
@@ -15,10 +15,10 @@ var App = function App(props) {
   var formatted = currencyCodes(rates).map(function (code) {
     return React.createElement(
       'div',
-      { 'class': 'col-sm-4' },
+      { className: 'col-sm-4' },
       React.createElement(
         'table',
-        { 'class': 'table table-hover' },
+        { className: 'table table-hover' },
         React.createElement(
           'tbody',
           null,
@@ -27,7 +27,7 @@ var App = function App(props) {
             null,
             React.createElement(
               'td',
-              { 'class': 'pr-4' },
+              { className: 'pr-4' },
               React.createElement(CurrencyFormat, { locale: 'en', displayType: 'name', currencyCode: code, value: rates[code] })
             )
           ),
@@ -36,7 +36,7 @@ var App = function App(props) {
             null,
             React.createElement(
               'td',
-              { 'class': 'pr-5' },
+              { className: 'pr-5' },
               React.createElement(CurrencyFormat, { locale: 'en', displayType: 'code', currencyCode: code, value: rates[code] })
             )
           )
@@ -51,7 +51,7 @@ var App = function App(props) {
     React.createElement(Motd, { date: date }),
     React.createElement(
       'div',
-      { 'class': 'row' },
+      { className: 'row' },
       formatted
     )
   );
@@ -95,7 +95,7 @@ var CurrencyFormat = function CurrencyFormat(prop) {
     if (element['type'] !== 'currency') {
       return React.createElement(
         'span',
-        { 'class': 'digit-display' },
+        { className: 'digit-display' },
         element['value']
       );
     }
@@ -121,13 +121,7 @@ var display = function display(results) {
 // TODO: undo hardcoding of USD so that we can 
 // view exchange rates for other currencies
 
-// TODO: Compare today's date and the date of what's in
-// the localStorage.
-// Grab new copy if dates are different.
-
-// TODO: Provide a control to explicitly grab the latest exchange rates.
-
-fetch(URL).then(function (response) {
+fetch(EXCHANGE_RATES).then(function (response) {
   return response.json();
 }).then(function (json) {
   console.debug(json);
