@@ -1,5 +1,7 @@
 var EXCHANGE_RATES = 'https://raw.githubusercontent.com/ehom/external-data/master/exchangeratesapi/forex-rates.json';
 
+document.title = "USD forex rates";
+
 var App = function App(props) {
   // default properties?
   var _props$info = props.info,
@@ -14,30 +16,30 @@ var App = function App(props) {
 
   var formatted = currencyCodes(rates).map(function (code) {
     return React.createElement(
-      'div',
-      { className: 'col-sm-4' },
+      "div",
+      { className: "col-sm-4" },
       React.createElement(
-        'table',
-        { className: 'table table-hover' },
+        "table",
+        { className: "table table-hover" },
         React.createElement(
-          'tbody',
+          "tbody",
           null,
           React.createElement(
-            'tr',
+            "tr",
             null,
             React.createElement(
-              'td',
-              { className: 'pr-4' },
-              React.createElement(CurrencyFormat, { locale: 'en', displayType: 'name', currencyCode: code, value: rates[code] })
+              "td",
+              { className: "pr-4" },
+              React.createElement(CurrencyFormat, { locale: "en", displayType: "name", currencyCode: code, value: rates[code] })
             )
           ),
           React.createElement(
-            'tr',
+            "tr",
             null,
             React.createElement(
-              'td',
-              { className: 'pr-5' },
-              React.createElement(CurrencyFormat, { locale: 'en', displayType: 'code', currencyCode: code, value: rates[code] })
+              "td",
+              { className: "pr-5" },
+              React.createElement(CurrencyFormat, { locale: "en", displayType: "code", currencyCode: code, value: rates[code] })
             )
           )
         )
@@ -48,11 +50,24 @@ var App = function App(props) {
   return React.createElement(
     React.Fragment,
     null,
-    React.createElement(Motd, { date: date }),
     React.createElement(
-      'div',
-      { className: 'row' },
-      formatted
+      "div",
+      { className: "jumbotron pb-4" },
+      React.createElement(
+        "h3",
+        { className: "h3" },
+        "How much is 1 US Dollar worth today?"
+      )
+    ),
+    React.createElement(
+      "div",
+      { className: "container pb-5" },
+      React.createElement(Motd, { date: date }),
+      React.createElement(
+        "div",
+        { className: "row" },
+        formatted
+      )
     )
   );
 };
@@ -61,15 +76,15 @@ var Motd = function Motd(props) {
   var date = props.date;
 
   return React.createElement(
-    'p',
+    "p",
     null,
-    'As of ',
+    "As of ",
     React.createElement(
-      'strong',
+      "strong",
       null,
       date
     ),
-    ', here are the exchange rates:'
+    ", here are the exchange rates:"
   );
 };
 
@@ -94,8 +109,8 @@ var CurrencyFormat = function CurrencyFormat(prop) {
   var formatted = parts.map(function (element) {
     if (element['type'] !== 'currency') {
       return React.createElement(
-        'span',
-        { className: 'digit-display' },
+        "span",
+        { className: "digit-display" },
         element['value']
       );
     }
