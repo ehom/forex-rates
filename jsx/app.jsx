@@ -1,5 +1,7 @@
 const EXCHANGE_RATES = 'https://raw.githubusercontent.com/ehom/external-data/master/exchangeratesapi/forex-rates.json';
 
+document.title = "USD forex rates";
+
 const App = function(props) {
   // default properties?
   const {date, rates} = props.info;
@@ -28,8 +30,13 @@ const App = function(props) {
   
   return (
     <React.Fragment>
-      <Motd date={date}/>
-      <div className='row'>{formatted}</div>
+      <div className="jumbotron pb-4">
+        <h3 className="h3">How much is 1 US Dollar worth today?</h3>
+      </div>
+      <div className="container pb-5">
+        <Motd date={date}/>
+        <div className='row'>{formatted}</div>
+      </div>
     </React.Fragment>
   );
 };
