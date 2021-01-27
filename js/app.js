@@ -52,7 +52,7 @@ var App = function App(props) {
     null,
     React.createElement(
       "div",
-      { className: "jumbotron pb-4" },
+      { className: "jumbotron pt-4 pb-4" },
       React.createElement(
         "h3",
         { className: "h3" },
