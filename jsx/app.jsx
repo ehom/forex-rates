@@ -30,7 +30,7 @@ const App = function(props) {
   
   return (
     <React.Fragment>
-      <div className="jumbotron pb-4">
+      <div className="jumbotron pt-4 pb-4">
         <h3 className="h3">How much is 1 US Dollar worth today?</h3>
       </div>
       <div className="container pb-5">
