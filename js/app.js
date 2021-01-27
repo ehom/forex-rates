@@ -1,43 +1,134 @@
-URL = 'https://raw.githubusercontent.com/ehom/external-data/master/exchangeratesapi/forex-rates.json';
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var App = function App(props) {
-  // default properties?
-  var _props$info = props.info,
-      date = _props$info.date,
-      rates = _props$info.rates;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+document.title = "USD forex rates";
+
+var App = function (_React$Component) {
+  _inherits(App, _React$Component);
+
+  function App(props) {
+    _classCallCheck(this, App);
+
+    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+
+    console.debug("ctor");
+    _this.state = {
+      date: undefined,
+      rates: {}
+    };
+    return _this;
+  }
+
+  _createClass(App, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      console.debug("componentDidMount");
+
+      var EXCHANGE_RATES = 'https://raw.githubusercontent.com/ehom/external-data/master/exchangeratesapi/forex-rates.json';
+
+      fetch(EXCHANGE_RATES).then(function (response) {
+        return response.json();
+      }).then(function (json) {
+        console.debug(json);
+        return json;
+      }).then(function (json) {
+        delete json.rates['USD'];
+        _this2.setState({
+          date: json.date,
+          rates: json.rates
+        });
+      }).catch(function (error) {
+        return console.log(error);
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      console.debug("render");
+
+      if (this.state.date !== undefined) {
+        return React.createElement(
+          React.Fragment,
+          null,
+          React.createElement(
+            "div",
+            { className: "jumbotron pt-4 pb-4" },
+            React.createElement(
+              "h3",
+              { className: "h3" },
+              "How much is 1 US Dollar worth today?"
+            )
+          ),
+          React.createElement(Motd, { date: this.state.date }),
+          React.createElement(
+            "div",
+            { "class": "row" },
+            React.createElement(Rates, { rates: this.state.rates })
+          )
+        );
+      }
+
+      return React.createElement(
+        React.Fragment,
+        null,
+        React.createElement(
+          "div",
+          { className: "jumbotron pt-4 pb-4" },
+          React.createElement(
+            "h3",
+            { className: "h3" },
+            "How much is 1 US Dollar worth today?"
+          )
+        )
+      );
+    }
+  }]);
+
+  return App;
+}(React.Component);
+
+var Rates = function Rates(_ref) {
+  var rates = _ref.rates;
 
   var currencyCodes = function currencyCodes(object) {
-    var currencies = Object.keys(rates);
+    var currencies = Object.keys(object);
     currencies.sort();
     return currencies;
   };
 
   var formatted = currencyCodes(rates).map(function (code) {
     return React.createElement(
-      'div',
-      { 'class': 'col-sm-4' },
+      "div",
+      { className: "col-sm-4" },
       React.createElement(
-        'table',
-        { 'class': 'table table-hover' },
+        "table",
+        { className: "table table-hover" },
         React.createElement(
-          'tbody',
+          "tbody",
           null,
           React.createElement(
-            'tr',
+            "tr",
             null,
             React.createElement(
-              'td',
-              { 'class': 'pr-4' },
-              React.createElement(CurrencyFormat, { locale: 'en', displayType: 'name', currencyCode: code, value: rates[code] })
+              "td",
+              { className: "pr-4" },
+              React.createElement(CurrencyFormat, { locale: "en", displayType: "name", currencyCode: code, value: rates[code] })
             )
           ),
           React.createElement(
-            'tr',
+            "tr",
             null,
             React.createElement(
-              'td',
-              { 'class': 'pr-5' },
-              React.createElement(CurrencyFormat, { locale: 'en', displayType: 'code', currencyCode: code, value: rates[code] })
+              "td",
+              { className: "pr-5" },
+              React.createElement(CurrencyFormat, { locale: "en", displayType: "code", currencyCode: code, value: rates[code] })
             )
           )
         )
@@ -48,93 +139,8 @@ var App = function App(props) {
   return React.createElement(
     React.Fragment,
     null,
-    React.createElement(Motd, { date: date }),
-    React.createElement(
-      'div',
-      { 'class': 'row' },
-      formatted
-    )
-  );
-};
-
-var Motd = function Motd(props) {
-  var date = props.date;
-
-  return React.createElement(
-    'p',
-    null,
-    'As of ',
-    React.createElement(
-      'strong',
-      null,
-      date
-    ),
-    ', here are the exchange rates:'
-  );
-};
-
-var CurrencyFormat = function CurrencyFormat(prop) {
-  var _prop$locale = prop.locale,
-      locale = _prop$locale === undefined ? 'en' : _prop$locale,
-      _prop$displayType = prop.displayType,
-      displayType = _prop$displayType === undefined ? 'name' : _prop$displayType,
-      _prop$currencyCode = prop.currencyCode,
-      currencyCode = _prop$currencyCode === undefined ? 'USD' : _prop$currencyCode,
-      _prop$value = prop.value,
-      value = _prop$value === undefined ? '0.00' : _prop$value;
-
-
-  var formatOptions = {
-    style: 'currency',
-    currencyDisplay: displayType,
-    currency: currencyCode
-  };
-
-  var parts = new Intl.NumberFormat(locale, formatOptions).formatToParts(value);
-  var formatted = parts.map(function (element) {
-    if (element['type'] !== 'currency') {
-      return React.createElement(
-        'span',
-        { 'class': 'digit-display' },
-        element['value']
-      );
-    }
-    return React.createElement(
-      React.Fragment,
-      null,
-      element['value']
-    );
-  });
-
-  return React.createElement(
-    React.Fragment,
-    null,
     formatted
   );
 };
 
-var display = function display(results) {
-  // console.log('result:', results);
-  ReactDOM.render(React.createElement(App, { info: results }), document.getElementById('parent'));
-};
-
-// TODO: undo hardcoding of USD so that we can 
-// view exchange rates for other currencies
-
-// TODO: Compare today's date and the date of what's in
-// the localStorage.
-// Grab new copy if dates are different.
-
-// TODO: Provide a control to explicitly grab the latest exchange rates.
-
-fetch(URL).then(function (response) {
-  return response.json();
-}).then(function (json) {
-  console.debug(json);
-  return json;
-}).then(function (json) {
-  delete json.rates['USD'];
-  display(json);
-}).catch(function (error) {
-  return console.log(error);
-});
+ReactDOM.render(React.createElement(App, null), document.getElementById('parent'));
