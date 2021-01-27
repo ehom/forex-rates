@@ -23,4 +23,9 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Transpile JSX to JS
         run: |
-          echo This is a placeholder
+          npm install
+          npm run-script build
+          git config --global user.name $GITHUB_ACTOR
+          git add js/app.js
+          git diff --quiet && git diff --staged --quiet || git commit -am 'check-in generated file'
+          git push
