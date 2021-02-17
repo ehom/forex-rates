@@ -26,7 +26,9 @@ var App = function (_React$Component) {
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = App.__proto__ || Object.getPrototypeOf(App)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
       date: undefined,
-      rates: {}
+      rates: {},
+      cardView: true,
+      listView: false
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
@@ -66,24 +68,49 @@ var App = function (_React$Component) {
       });
     }
   }, {
+    key: "clickCardView",
+    value: function clickCardView(event) {
+      console.debug("click Card View:", event);
+
+      this.setState({
+        cardView: true,
+        listView: false
+      });
+    }
+  }, {
+    key: "clickListView",
+    value: function clickListView(event) {
+      console.debug("click List View", event);
+
+      this.setState({
+        cardView: false,
+        listView: true
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
-      console.debug("render");
+      console.debug("render app");
 
       var rates = "";
       var isReady = this.state.date !== undefined;
 
       if (isReady) {
-        rates = React.createElement(
-          React.Fragment,
-          null,
-          React.createElement(Motd, { date: this.state.date }),
-          React.createElement(
-            "div",
-            { className: "row" },
-            React.createElement(Rates, { rates: this.state.rates })
-          )
-        );
+        if (this.state.listView) {
+          rates = React.createElement(
+            React.Fragment,
+            null,
+            React.createElement(Motd, { date: this.state.date }),
+            React.createElement(ListView, { rates: this.state.rates })
+          );
+        } else {
+          rates = React.createElement(
+            React.Fragment,
+            null,
+            React.createElement(Motd, { date: this.state.date }),
+            React.createElement(CardView, { rates: this.state.rates })
+          );
+        }
       }
 
       return React.createElement(
@@ -98,7 +125,25 @@ var App = function (_React$Component) {
             "How much is 1 US Dollar worth today?"
           )
         ),
-        rates
+        React.createElement(
+          "div",
+          { className: "container border mb-4" },
+          React.createElement(
+            "div",
+            { className: "form-check form-check-inline" },
+            React.createElement(Checkbox, { label: "Card View", checked: this.state.cardView, onClick: this.clickCardView.bind(this) })
+          ),
+          React.createElement(
+            "div",
+            { className: "form-check form-check-inline" },
+            React.createElement(Checkbox, { label: "List View", checked: this.state.listView, onClick: this.clickListView.bind(this) })
+          )
+        ),
+        React.createElement(
+          "div",
+          null,
+          rates
+        )
       );
     }
   }]);
@@ -106,8 +151,21 @@ var App = function (_React$Component) {
   return App;
 }(React.Component);
 
-var Rates = function Rates(_ref2) {
-  var rates = _ref2.rates;
+var Checkbox = function Checkbox(_ref2) {
+  var label = _ref2.label,
+      checked = _ref2.checked,
+      onClick = _ref2.onClick;
+
+  return React.createElement(
+    "label",
+    { className: "form-check-label" },
+    React.createElement("input", { className: "form-check-input", type: "radio", checked: checked, onClick: onClick }),
+    label
+  );
+};
+
+var ListView = function ListView(_ref3) {
+  var rates = _ref3.rates;
 
   var currencyCodes = function currencyCodes(object) {
     var currencies = Object.keys(object);
@@ -115,43 +173,65 @@ var Rates = function Rates(_ref2) {
     return currencies;
   };
 
-  var formatted = currencyCodes(rates).map(function (code) {
+  var tableRows = currencyCodes(rates).map(function (code) {
     return React.createElement(
-      "div",
-      { className: "col-sm-4" },
+      "tr",
+      null,
       React.createElement(
-        "table",
-        { className: "table table-hover" },
-        React.createElement(
-          "tbody",
-          null,
-          React.createElement(
-            "tr",
-            null,
-            React.createElement(
-              "td",
-              { className: "pr-4" },
-              React.createElement(CurrencyFormat, { locale: "en", displayType: "name", currencyCode: code, value: rates[code] })
-            )
-          ),
-          React.createElement(
-            "tr",
-            null,
-            React.createElement(
-              "td",
-              { className: "pr-5" },
-              React.createElement(CurrencyFormat, { locale: "en", displayType: "code", currencyCode: code, value: rates[code] })
-            )
-          )
-        )
+        "td",
+        null,
+        React.createElement(CurrencyFormat, { locale: "en", displayType: "name", currencyCode: code, value: rates[code] })
+      ),
+      React.createElement(
+        "td",
+        null,
+        React.createElement(CurrencyFormat, { locale: "en", displayType: "code", currencyCode: code, value: rates[code] })
+      ),
+      React.createElement(
+        "td",
+        null,
+        React.createElement(CurrencyFormat, { locale: "en", displayType: "symbol", currencyCode: code, value: rates[code] })
       )
     );
   });
 
+  var style = { "text-align": "right" };
+
   return React.createElement(
     React.Fragment,
     null,
-    formatted
+    React.createElement(
+      "table",
+      { className: "table table-hover table-striped" },
+      React.createElement(
+        "thead",
+        null,
+        React.createElement(
+          "tr",
+          null,
+          React.createElement(
+            "th",
+            { style: style },
+            "currency name"
+          ),
+          React.createElement(
+            "th",
+            { style: style },
+            "code"
+          ),
+          React.createElement(
+            "th",
+            { style: style },
+            "symbol"
+          )
+        )
+      ),
+      React.createElement(
+        "tbody",
+        null,
+        tableRows
+      )
+    )
   );
 };
 

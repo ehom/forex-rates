@@ -1,4 +1,4 @@
-var Rates = function Rates(_ref) {
+var CardView = function CardView(_ref) {
   var rates = _ref.rates;
 
   var currencyCodes = function currencyCodes(object) {
@@ -7,43 +7,58 @@ var Rates = function Rates(_ref) {
     return currencies;
   };
 
-  var formatted = currencyCodes(rates).map(function (code) {
-    return React.createElement(
-      "div",
-      { className: "col-sm-4" },
-      React.createElement(
-        "table",
-        { className: "table table-hover" },
+  var rows = [];
+
+  var codes = currencyCodes(rates);
+  for (; codes.length;) {
+    rows.push(codes.splice(0, 3));
+  }
+
+  var formattedRows = rows.map(function (row) {
+    var formattedColumns = row.map(function (code) {
+      return React.createElement(
+        "div",
+        { className: "col-sm-4" },
         React.createElement(
-          "tbody",
-          null,
+          "table",
+          { className: "table table-hover" },
           React.createElement(
-            "tr",
+            "tbody",
             null,
             React.createElement(
-              "td",
-              { className: "pr-4" },
-              React.createElement(CurrencyFormat, { locale: "en", displayType: "name", currencyCode: code, value: rates[code] })
-            )
-          ),
-          React.createElement(
-            "tr",
-            null,
+              "tr",
+              null,
+              React.createElement(
+                "td",
+                { className: "pr-4" },
+                React.createElement(CurrencyFormat, { locale: "en", displayType: "name", currencyCode: code, value: rates[code] })
+              )
+            ),
             React.createElement(
-              "td",
-              { className: "pr-5" },
-              React.createElement(CurrencyFormat, { locale: "en", displayType: "code", currencyCode: code, value: rates[code] })
+              "tr",
+              null,
+              React.createElement(
+                "td",
+                { className: "pr-5" },
+                React.createElement(CurrencyFormat, { locale: "en", displayType: "code", currencyCode: code, value: rates[code] })
+              )
             )
           )
         )
-      )
+      );
+    });
+
+    return React.createElement(
+      "div",
+      { className: "row" },
+      formattedColumns
     );
   });
 
   return React.createElement(
     React.Fragment,
     null,
-    formatted
+    formattedRows
   );
 };
 
