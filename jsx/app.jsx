@@ -1,10 +1,11 @@
-
 document.title = "USD forex rates";
 
 class App extends React.Component {
   state = {
     date: undefined,
-    rates: {}
+    rates: {},
+    cardView: true,
+    listView: false
   }
 
   componentDidMount() {
@@ -36,21 +37,46 @@ class App extends React.Component {
       .catch(error => console.log(error));
   }
 
+  clickCardView(event) {
+    console.debug("click Card View:", event);
+
+    this.setState({
+      cardView: true,
+      listView: false
+    });
+  }
+
+  clickListView(event) {
+    console.debug("click List View", event);
+
+    this.setState({
+      cardView: false,
+      listView: true
+    });
+  }
+
   render() {
-    console.debug("render");
+    console.debug("render app");
 
     let rates = "";
     const isReady = this.state.date !== undefined;
 
     if (isReady) {
-      rates = (
-        <React.Fragment>
-          <Motd date={this.state.date} />
-          <div className='row'>
-            <Rates rates={this.state.rates} />
-          </div>
-        </React.Fragment>
-      );
+      if (this.state.listView) {
+        rates = (
+          <React.Fragment>
+            <Motd date={this.state.date} />
+            <ListView rates={this.state.rates} />
+          </React.Fragment>
+        );
+      } else {
+        rates = (
+          <React.Fragment>
+            <Motd date={this.state.date} />
+            <CardView rates={this.state.rates} />
+          </React.Fragment>
+        );
+      }
     }
 
     return (
@@ -58,37 +84,70 @@ class App extends React.Component {
         <div className="jumbotron pt-4 pb-4">
           <h3 className="h3">How much is 1 US Dollar worth today?</h3>
         </div>
+        <div className="container border mb-4">
+          <div className="form-check form-check-inline">
+            <Checkbox label="Card View" checked={this.state.cardView} onClick={this.clickCardView.bind(this)} />
+          </div>
+          <div className="form-check form-check-inline">
+            <Checkbox label="List View" checked={this.state.listView} onClick={this.clickListView.bind(this)} />
+          </div>
+        </div>
+        <div>
         {rates}
+        </div>
       </React.Fragment>
     );
   }  
 }
 
-const Rates = ({rates}) => {
+const Checkbox = ({label, checked, onClick}) => {
+  return (
+    <label className="form-check-label">
+      <input className="form-check-input" type="radio" checked={checked} onClick={onClick} />
+      {label}
+    </label>
+  );
+};
+
+const ListView = ({rates}) => {
   const currencyCodes = (object) => {
     let currencies = Object.keys(object);
     currencies.sort();
     return currencies;
   };
-  
-  const formatted = currencyCodes(rates).map((code) => {
+
+  const tableRows = currencyCodes(rates).map((code) => {
     return (
-      <div className="col-sm-4">
-        <table className='table table-hover'>
-          <tbody>
-            <tr><td className="pr-4">
-              <CurrencyFormat locale='en' displayType='name' currencyCode={code} value={rates[code]}/>
-              </td></tr>
-            <tr><td className="pr-5">
-              <CurrencyFormat locale='en' displayType='code' currencyCode={code} value={rates[code]}/>
-              </td></tr>
-          </tbody>
-        </table>
-      </div>
+      <tr>
+        <td>
+          <CurrencyFormat locale='en' displayType='name' currencyCode={code} value={rates[code]}/>
+        </td>
+        <td>
+          <CurrencyFormat locale='en' displayType='code' currencyCode={code} value={rates[code]}/>
+        </td>
+        <td>
+          <CurrencyFormat locale='en' displayType='symbol' currencyCode={code} value={rates[code]}/>
+        </td>
+      </tr>
     );
   });
-  
-  return <React.Fragment>{formatted}</React.Fragment>;
+
+  const style = {"text-align": "right"};
+
+  return (
+    <React.Fragment>
+      <table className='table table-hover table-striped'>
+        <thead>
+          <tr>
+            <th style={style}>currency name</th>
+            <th style={style}>code</th>
+            <th style={style}>symbol</th>
+          </tr>
+        </thead>
+        <tbody>{tableRows}</tbody>
+      </table>
+    </React.Fragment>
+  );
 };
 
 ReactDOM.render(<App />, document.getElementById('parent'));

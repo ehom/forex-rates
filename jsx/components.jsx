@@ -1,28 +1,39 @@
-const Rates = ({rates}) => {
+const CardView = ({rates}) => {
   const currencyCodes = (object) => {
     let currencies = Object.keys(object);
     currencies.sort();
     return currencies;
   };
-  
-  const formatted = currencyCodes(rates).map((code) => {
-    return (
-      <div className="col-sm-4">
-        <table className='table table-hover'>
-          <tbody>
-            <tr><td className="pr-4">
-              <CurrencyFormat locale='en' displayType='name' currencyCode={code} value={rates[code]}/>
+
+  let rows = [];
+
+  let codes = currencyCodes(rates);
+  for (;codes.length;) {
+    rows.push(codes.splice(0, 3));
+  }
+
+  const formattedRows = rows.map(row => {
+    const formattedColumns = row.map(code => {
+      return (
+        <div className="col-sm-4">
+          <table className='table table-hover'>
+            <tbody>
+              <tr><td className="pr-4">
+                <CurrencyFormat locale='en' displayType='name' currencyCode={code} value={rates[code]}/>
               </td></tr>
-            <tr><td className="pr-5">
-              <CurrencyFormat locale='en' displayType='code' currencyCode={code} value={rates[code]}/>
+              <tr><td className="pr-5">
+                <CurrencyFormat locale='en' displayType='code' currencyCode={code} value={rates[code]}/>
               </td></tr>
-          </tbody>
-        </table>
-      </div>
-    );
+            </tbody>
+          </table>
+        </div>
+      );
+    });
+
+    return <div className="row">{formattedColumns}</div>;
   });
-  
-  return <React.Fragment>{formatted}</React.Fragment>;
+
+  return <React.Fragment>{formattedRows}</React.Fragment>;
 };
 
 const Motd = function({date}) {
@@ -63,5 +74,4 @@ CurrencyFormat.defaultProps = {
   currencyCode: 'USD', 
   value: '0.00'
 };
-
 
