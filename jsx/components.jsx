@@ -27,7 +27,7 @@ const Rates = ({rates}) => {
 
 const Motd = function({date}) {
   return (
-    <p>As of <strong>{date}</strong>, here are the exchange rates:</p>
+    <p>Here are the exchange rates for <strong>{date}</strong>:</p>
   );
 };
 

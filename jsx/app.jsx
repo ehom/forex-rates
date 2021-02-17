@@ -2,14 +2,9 @@
 document.title = "USD forex rates";
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-
-    console.debug("ctor");
-    this.state = {
-      date: undefined,
-      rates: {}
-    }
+  state = {
+    date: undefined,
+    rates: {}
   }
 
   componentDidMount() {
@@ -27,10 +22,16 @@ class App extends React.Component {
       .then(
         json => {
           delete json.rates['USD'];
+
+          const [year, month, day] = json.date.split('-');
+          const date = new Date(Date.UTC(year, month - 1, day, 8, 0, 0));
+          const localDate = new Intl.DateTimeFormat(navigator.language, {
+            weekday: "short", year: "numeric", month: "short", day: "numeric"}).format(date);
+
           this.setState({
-            date: json.date,
+            date: localDate,
             rates: json.rates
-          })
+          });
         })
       .catch(error => console.log(error));
   }
@@ -38,14 +39,14 @@ class App extends React.Component {
   render() {
     console.debug("render");
 
-    if (this.state.date !== undefined) {
-      return (
+    let rates = "";
+    const isReady = this.state.date !== undefined;
+
+    if (isReady) {
+      rates = (
         <React.Fragment>
-          <div className="jumbotron pt-4 pb-4">
-            <h3 className="h3">How much is 1 US Dollar worth today?</h3>
-          </div>
           <Motd date={this.state.date} />
-          <div class='row'>
+          <div className='row'>
             <Rates rates={this.state.rates} />
           </div>
         </React.Fragment>
@@ -57,6 +58,7 @@ class App extends React.Component {
         <div className="jumbotron pt-4 pb-4">
           <h3 className="h3">How much is 1 US Dollar worth today?</h3>
         </div>
+        {rates}
       </React.Fragment>
     );
   }  
