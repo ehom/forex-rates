@@ -53,13 +53,13 @@ var Motd = function Motd(_ref2) {
   return React.createElement(
     "p",
     null,
-    "As of ",
+    "Here are the exchange rates for ",
     React.createElement(
       "strong",
       null,
       date
     ),
-    ", here are the exchange rates:"
+    ":"
   );
 };
 
