@@ -131,12 +131,12 @@ var App = function (_React$Component) {
           React.createElement(
             "div",
             { className: "form-check form-check-inline" },
-            React.createElement(Checkbox, { label: "Card View", checked: this.state.cardView, onClick: this.clickCardView.bind(this) })
+            React.createElement(RadioButton, { label: "Card View", checked: this.state.cardView, onClick: this.clickCardView.bind(this) })
           ),
           React.createElement(
             "div",
             { className: "form-check form-check-inline" },
-            React.createElement(Checkbox, { label: "List View", checked: this.state.listView, onClick: this.clickListView.bind(this) })
+            React.createElement(RadioButton, { label: "List View", checked: this.state.listView, onClick: this.clickListView.bind(this) })
           )
         ),
         React.createElement(
@@ -151,7 +151,7 @@ var App = function (_React$Component) {
   return App;
 }(React.Component);
 
-var Checkbox = function Checkbox(_ref2) {
+var RadioButton = function RadioButton(_ref2) {
   var label = _ref2.label,
       checked = _ref2.checked,
       onClick = _ref2.onClick;
