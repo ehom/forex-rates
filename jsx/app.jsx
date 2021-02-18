@@ -86,10 +86,10 @@ class App extends React.Component {
         </div>
         <div className="container border mb-4">
           <div className="form-check form-check-inline">
-            <Checkbox label="Card View" checked={this.state.cardView} onClick={this.clickCardView.bind(this)} />
+            <RadioButton label="Card View" checked={this.state.cardView} onClick={this.clickCardView.bind(this)} />
           </div>
           <div className="form-check form-check-inline">
-            <Checkbox label="List View" checked={this.state.listView} onClick={this.clickListView.bind(this)} />
+            <RadioButton label="List View" checked={this.state.listView} onClick={this.clickListView.bind(this)} />
           </div>
         </div>
         <div>
@@ -100,7 +100,7 @@ class App extends React.Component {
   }  
 }
 
-const Checkbox = ({label, checked, onClick}) => {
+const RadioButton = ({label, checked, onClick}) => {
   return (
     <label className="form-check-label">
       <input className="form-check-input" type="radio" checked={checked} onClick={onClick} />
