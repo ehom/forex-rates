@@ -81,10 +81,10 @@ class App extends React.Component {
 
     return (
       <React.Fragment>
-        <div className="jumbotron pt-4 pb-4">
+        <div className="jumbotron pt-4 pb-4 mb-2">
           <h3 className="h3">How much is 1 US Dollar worth today?</h3>
         </div>
-        <div className="container border mb-4">
+        <div className="container border mb-3">
           <div className="form-check form-check-inline">
             <RadioButton label="Card View" checked={this.state.cardView} onClick={this.clickCardView.bind(this)} />
           </div>
