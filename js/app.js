@@ -118,7 +118,7 @@ var App = function (_React$Component) {
         null,
         React.createElement(
           "div",
-          { className: "jumbotron pt-4 pb-4" },
+          { className: "jumbotron pt-4 pb-4 mb-2" },
           React.createElement(
             "h3",
             { className: "h3" },
@@ -127,7 +127,7 @@ var App = function (_React$Component) {
         ),
         React.createElement(
           "div",
-          { className: "container border mb-4" },
+          { className: "container border mb-3" },
           React.createElement(
             "div",
             { className: "form-check form-check-inline" },
