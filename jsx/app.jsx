@@ -136,7 +136,7 @@ const ListView = ({rates}) => {
 
   return (
     <React.Fragment>
-      <table className='table table-hover table-striped'>
+      <table className='table table-responsive-sm table-hover table-striped'>
         <thead>
           <tr>
             <th style={style}>currency name</th>

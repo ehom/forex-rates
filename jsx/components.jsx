@@ -18,10 +18,10 @@ const CardView = ({rates}) => {
         <div className="col-sm-4">
           <table className='table table-hover'>
             <tbody>
-              <tr><td className="pr-4">
+              <tr><td className="text-center">
                 <CurrencyFormat locale='en' displayType='name' currencyCode={code} value={rates[code]}/>
               </td></tr>
-              <tr><td className="pr-5">
+              <tr><td className="text-center">
                 <CurrencyFormat locale='en' displayType='code' currencyCode={code} value={rates[code]}/>
               </td></tr>
             </tbody>
