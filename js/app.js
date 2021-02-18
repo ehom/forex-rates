@@ -202,7 +202,7 @@ var ListView = function ListView(_ref3) {
     null,
     React.createElement(
       "table",
-      { className: "table table-hover table-striped" },
+      { className: "table table-responsive-sm table-hover table-striped" },
       React.createElement(
         "thead",
         null,

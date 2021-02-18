@@ -30,7 +30,7 @@ var CardView = function CardView(_ref) {
               null,
               React.createElement(
                 "td",
-                { className: "pr-4" },
+                { className: "text-center" },
                 React.createElement(CurrencyFormat, { locale: "en", displayType: "name", currencyCode: code, value: rates[code] })
               )
             ),
@@ -39,7 +39,7 @@ var CardView = function CardView(_ref) {
               null,
               React.createElement(
                 "td",
-                { className: "pr-5" },
+                { className: "text-center" },
                 React.createElement(CurrencyFormat, { locale: "en", displayType: "code", currencyCode: code, value: rates[code] })
               )
             )
