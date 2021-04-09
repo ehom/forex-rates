@@ -97,7 +97,7 @@ var App = function (_React$Component) {
               React.createElement(
                 "h3",
                 null,
-                "USD EXCHANGE RATES"
+                "USD Exchange Rates"
               )
             ),
             React.createElement(
