@@ -127,26 +127,23 @@ class App extends React.Component {
 }
 
 const Instructions = () => {
-  const handleClick = (event) => {
-    // dismiss the alert by closing the parent of the button.
-    event.target.parentElement.parentElement.style.display = "none";
-  };
   const THINKING_FACE = "\uD83E\uDD14";
   const SLIGHTLY_SMILING = "\ud83d\ude42";
 
-  const styling = { fontSize: "14pt" };
+  const message = `Note: The rate table is clickable ${THINKING_FACE} Also, the page will update if you change the UI language of your browser ${SLIGHTLY_SMILING}`;
+  
+  const [text, setText] = React.useState('');
+  
+  const clickHandler = (event) => {
+    setText(text === '' ? message : '');
+  };
+  const stylingInner = {background: "white", fontSize: "14pt"};
   return (
-    <div
-      className="alert alert-light alert-dismissible fade show"
-      role="alert"
-      style={styling}
-    >
-      <button type="button" className="close" onClick={handleClick}>
-        <span>×</span>
-      </button>{" "}
-      <strong>Note:</strong> The rate table is clickable {THINKING_FACE} Also,
-      the page will update if you change the UI language of your browser{" "}
-      {SLIGHTLY_SMILING}
+    <div className="mb-2">
+      <button className="btn btn-primary mb-2" onClick={clickHandler}>?</button>
+      <div className="container" style={stylingInner}>
+        {text}
+      </div>
     </div>
   );
 };
