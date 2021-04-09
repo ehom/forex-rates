@@ -1,16 +1,12 @@
 body {
-  background: linen;
-  font-size: 13pt;
+  background-color: DarkBlue;
+  font-size: 20pt;
 }
 
-table {
-  background: white;
+.app-rate {
+  color: yellow;
 }
 
-.digit-display {
-  font-size: 18pt;
-}
-
-td {
-  text-align: right;
+.app-flag {
+  font-size: 20pt;
 }

@@ -8,7 +8,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-document.title = "USD forex rates";
+var currencyCodes = ["USD", "EUR", "JPY", "GBP", "AUD", "CAD", "CHF", "CNY", "HKD", "NZD", "SEK", "KRW", "SGD", "NOK", "MXN", "INR", "RUB", "ZAR", "TRY", "BRL", "TWD", "DKK", "PLN", "THB", "IDR", "HUF", "CZK", "ILS", "CLP", "PHP", "AED", "COP", "SAR", "MYR", "RON"];
 
 var App = function (_React$Component) {
   _inherits(App, _React$Component);
@@ -26,9 +26,20 @@ var App = function (_React$Component) {
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = App.__proto__ || Object.getPrototypeOf(App)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
       date: undefined,
-      rates: {},
-      cardView: true,
-      listView: false
+      rates: [],
+      language: navigator.language
+    }, _this.fetchedRates = [], _this.handleLanguageChange = function (event) {
+      console.debug("handleLanguageChange:", event);
+
+      var rates = Helper.createCurrencyList(currencyCodes, _this.fetchedRates);
+
+      console.debug("REcreated table of formatted rates:", rates);
+
+      _this.setState({
+        date: _this.state.date,
+        rates: rates,
+        language: navigator.language
+      });
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
@@ -39,29 +50,24 @@ var App = function (_React$Component) {
 
       console.debug("componentDidMount");
 
-      var EXCHANGE_RATES = 'https://raw.githubusercontent.com/ehom/external-data/master/exchangeratesapi/forex-rates.json';
+      window.addEventListener("languagechange", this.handleLanguageChange.bind(this));
+
+      var EXCHANGE_RATES = "https://raw.githubusercontent.com/ehom/external-data/master/finnhub/usd.json";
 
       fetch(EXCHANGE_RATES).then(function (response) {
         return response.json();
       }).then(function (json) {
-        console.debug(json);
-        return json;
-      }).then(function (json) {
-        delete json.rates['USD'];
+        console.debug("rates fetched:", json.quote);
 
-        var _json$date$split = json.date.split('-'),
-            _json$date$split2 = _slicedToArray(_json$date$split, 3),
-            year = _json$date$split2[0],
-            month = _json$date$split2[1],
-            day = _json$date$split2[2];
+        _this2.fetchedRates = json.quote;
 
-        var date = new Date(Date.UTC(year, month - 1, day, 8, 0, 0));
-        var localDate = new Intl.DateTimeFormat(navigator.language, {
-          weekday: "short", year: "numeric", month: "short", day: "numeric" }).format(date);
+        var rates = Helper.createCurrencyList(currencyCodes, json.quote);
+
+        console.debug("created table of formatted rates:", rates);
 
         _this2.setState({
-          date: localDate,
-          rates: json.rates
+          date: new Date(json.timeStamp),
+          rates: rates
         });
       }).catch(function (error) {
         return console.log(error);
@@ -90,39 +96,54 @@ var App = function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      console.debug("render app");
+      console.debug("render: table of formatted rates:", this.state.rates);
 
-      var rates = "";
-      var isReady = this.state.date !== undefined;
-
-      if (isReady) {
-        if (this.state.listView) {
-          rates = React.createElement(
-            React.Fragment,
-            null,
-            React.createElement(Motd, { date: this.state.date }),
-            React.createElement(ListView, { rates: this.state.rates })
-          );
-        } else {
-          rates = React.createElement(
-            React.Fragment,
-            null,
-            React.createElement(Motd, { date: this.state.date }),
-            React.createElement(CardView, { rates: this.state.rates })
-          );
-        }
-      }
+      var tableRows = this.state.rates.map(function (entry) {
+        return React.createElement(TableRow, { entry: entry, key: entry.code });
+      });
 
       return React.createElement(
-        React.Fragment,
-        null,
+        "div",
+        { className: "container" },
         React.createElement(
           "div",
-          { className: "jumbotron pt-4 pb-4 mb-2" },
+          { className: "jumbotron pt-3 pb-3 mb-3" },
           React.createElement(
-            "h3",
-            { className: "h3" },
-            "How much is 1 US Dollar worth today?"
+            "div",
+            { className: "row" },
+            React.createElement(
+              "div",
+              { className: "col" },
+              React.createElement(
+                "h3",
+                null,
+                "USD EXCHANGE RATES"
+              )
+            ),
+            React.createElement(
+              "div",
+              { className: "col text-right" },
+              React.createElement(Helper.FormattedDate, {
+                locale: this.state.language,
+                date: this.state.date
+              })
+            )
+          )
+        ),
+        React.createElement(Instructions, null),
+        React.createElement(
+          "div",
+          null,
+          React.createElement(
+            "table",
+            { className: "table table-hover table-dark" },
+            React.createElement(
+              "tbody",
+              null,
+              React.createElement(BlankRow, null),
+              tableRows,
+              React.createElement(BlankRow, null)
+            )
           )
         ),
         React.createElement(
@@ -151,88 +172,207 @@ var App = function (_React$Component) {
   return App;
 }(React.Component);
 
-var RadioButton = function RadioButton(_ref2) {
-  var label = _ref2.label,
-      checked = _ref2.checked,
-      onClick = _ref2.onClick;
+var Instructions = function Instructions() {
+  var handleClick = function handleClick(event) {
+    // dismiss the alert by closing the parent of the button.
+    event.target.parentElement.parentElement.style.display = "none";
+  };
+  var THINKING_FACE = "\uD83E\uDD14";
+  var SLIGHTLY_SMILING = "\uD83D\uDE42";
 
+  var styling = { fontSize: "14pt" };
   return React.createElement(
-    "label",
-    { className: "form-check-label" },
-    React.createElement("input", { className: "form-check-input", type: "radio", checked: checked, onClick: onClick }),
-    label
+    "div",
+    {
+      className: "alert alert-light alert-dismissible fade show",
+      role: "alert",
+      style: styling
+    },
+    React.createElement(
+      "button",
+      { type: "button", className: "close", onClick: handleClick },
+      React.createElement(
+        "span",
+        null,
+        "\xD7"
+      )
+    ),
+    " ",
+    React.createElement(
+      "strong",
+      null,
+      "Note:"
+    ),
+    " The rate table is clickable ",
+    THINKING_FACE,
+    " Also, the page will update if you change the UI language of your browser",
+    " ",
+    SLIGHTLY_SMILING
   );
 };
 
-var ListView = function ListView(_ref3) {
-  var rates = _ref3.rates;
+var BlankRow = function BlankRow() {
+  return React.createElement(
+    "tr",
+    null,
+    React.createElement("td", null),
+    React.createElement("td", null)
+  );
+};
 
-  var currencyCodes = function currencyCodes(object) {
-    var currencies = Object.keys(object);
-    currencies.sort();
-    return currencies;
-  };
+var TableRow = function TableRow(_ref2) {
+  var entry = _ref2.entry;
 
-  var tableRows = currencyCodes(rates).map(function (code) {
+  console.debug("entry:", entry);
+
+  var _React$useState = React.useState(0),
+      _React$useState2 = _slicedToArray(_React$useState, 2),
+      formatIndex = _React$useState2[0],
+      setFormatIndex = _React$useState2[1];
+
+  var parts = entry.formats[formatIndex];
+
+  console.debug("parts:", parts);
+
+  var formatted = parts.map(function (part) {
+    var key = part.id + " " + part.value;
+    if (part.type !== "currency") {
+      return React.createElement(
+        "span",
+        { className: "app-rate", key: key },
+        part.value
+      );
+    }
     return React.createElement(
-      "tr",
-      null,
-      React.createElement(
-        "td",
-        null,
-        React.createElement(CurrencyFormat, { locale: "en", displayType: "name", currencyCode: code, value: rates[code] })
-      ),
-      React.createElement(
-        "td",
-        null,
-        React.createElement(CurrencyFormat, { locale: "en", displayType: "code", currencyCode: code, value: rates[code] })
-      ),
-      React.createElement(
-        "td",
-        null,
-        React.createElement(CurrencyFormat, { locale: "en", displayType: "symbol", currencyCode: code, value: rates[code] })
-      )
+      React.Fragment,
+      { key: key },
+      part.value
     );
   });
 
-  var style = { "text-align": "right" };
+  var handleClick = function handleClick(event) {
+    console.debug("Row clicked", event);
+    setFormatIndex(formatIndex + 1 >= entry.formats.length ? 0 : formatIndex + 1);
+  };
 
   return React.createElement(
-    React.Fragment,
-    null,
+    "tr",
+    { onClick: handleClick, key: entry.code },
     React.createElement(
-      "table",
-      { className: "table table-sm table-responsive-sm table-hover table-striped" },
-      React.createElement(
-        "thead",
-        null,
-        React.createElement(
-          "tr",
-          null,
-          React.createElement(
-            "th",
-            { style: style },
-            "currency name"
-          ),
-          React.createElement(
-            "th",
-            { style: style },
-            "code"
-          ),
-          React.createElement(
-            "th",
-            { style: style },
-            "symbol"
-          )
-        )
-      ),
-      React.createElement(
-        "tbody",
-        null,
-        tableRows
-      )
+      "td",
+      { className: "text-right app-flag" },
+      entry.flag
+    ),
+    React.createElement(
+      "td",
+      { className: "text-center" },
+      formatted
     )
   );
 };
 
-ReactDOM.render(React.createElement(App, null), document.getElementById('parent'));
+var Helper = Helper || {};
+
+Helper.FormattedDate = function (_ref3) {
+  var locale = _ref3.locale,
+      date = _ref3.date;
+
+  if (date === undefined) {
+    return React.createElement(React.Fragment, null);
+  }
+
+  var formatted = new Intl.DateTimeFormat(locale, {
+    weekday: "short",
+    year: "numeric",
+    month: "short",
+    day: "numeric"
+  }).format(date);
+
+  return React.createElement(
+    React.Fragment,
+    null,
+    formatted
+  );
+};
+
+Helper.FormattedDate.defaultProps = {
+  locale: navigator.language
+};
+
+var FLAGS = {
+  USD: "\uD83C\uDDFA\uD83C\uDDF8",
+  AUD: "\uD83C\uDDE6\uD83C\uDDFA",
+  EUR: "\uD83C\uDDEA\uD83C\uDDFA",
+  BGN: "\uD83C\uDDE7\uD83C\uDDEC",
+  BRL: "\uD83C\uDDE7\uD83C\uDDF7",
+  CAD: "\uD83C\uDDE8\uD83C\uDDE6",
+  CHF: "\uD83C\uDDE8\uD83C\uDDED",
+  CNY: "\uD83C\uDDE8\uD83C\uDDF3",
+  CZK: "\uD83C\uDDE8\uD83C\uDDFF",
+  DKK: "\uD83C\uDDE9\uD83C\uDDF0",
+  GBP: "\uD83C\uDDEC\uD83C\uDDE7",
+  HKD: "\uD83C\uDDED\uD83C\uDDF0",
+  HRK: "\uD83C\uDDED\uD83C\uDDF7",
+  HUF: "\uD83C\uDDED\uD83C\uDDFA",
+  IDR: "\uD83C\uDDEE\uD83C\uDDE9",
+  ILS: "\uD83C\uDDEE\uD83C\uDDF1",
+  INR: "\uD83C\uDDEE\uD83C\uDDF3",
+  ISK: "\uD83C\uDDEE\uD83C\uDDF8",
+  JPY: "\uD83C\uDDEF\uD83C\uDDF5",
+  KRW: "\uD83C\uDDF0\uD83C\uDDF7",
+  MXN: "\uD83C\uDDF2\uD83C\uDDFD",
+  MYR: "\uD83C\uDDF2\uD83C\uDDFE",
+  NOK: "\uD83C\uDDF3\uD83C\uDDF4",
+  NZD: "\uD83C\uDDF3\uD83C\uDDFF",
+  PHP: "\uD83C\uDDF5\uD83C\uDDED",
+  PLN: "\uD83C\uDDF5\uD83C\uDDF1",
+  RON: "\uD83C\uDDF7\uD83C\uDDF4",
+  RUB: "\uD83C\uDDF7\uD83C\uDDFA",
+  SEK: "\uD83C\uDDF8\uD83C\uDDEA",
+  SGD: "\uD83C\uDDF8\uD83C\uDDEC",
+  THB: "\uD83C\uDDF9\uD83C\uDDED",
+  TRY: "\uD83C\uDDF9\uD83C\uDDF7",
+  ZAR: "\uD83C\uDDFF\uD83C\uDDE6",
+  COP: "\uD83C\uDDE8\uD83C\uDDF4",
+  CLP: "\uD83C\uDDE8\uD83C\uDDF1",
+  TWD: "\uD83C\uDDF9\uD83C\uDDFC",
+  AED: "\uD83C\uDDE6\uD83C\uDDEA",
+  SAR: "\uD83C\uDDF8\uD83C\uDDE6"
+};
+
+Helper.getFlag = function (code) {
+  return code in FLAGS ? FLAGS[code] : FLAGS["EUR"];
+};
+
+Helper.createFormatter = function (code, currencyDisplay) {
+  return new Intl.NumberFormat(navigator.language, {
+    style: "currency",
+    currency: code,
+    currencyDisplay: currencyDisplay,
+    minimumFractionDigits: 2
+  });
+};
+
+Helper.createCurrencyList = function (codes, rates) {
+  var currencies = codes.map(function (code) {
+    var rate = rates[code];
+    var codeFormatter = Helper.createFormatter(code, "code");
+    var symbolFormatter = Helper.createFormatter(code, "symbol");
+
+    var formats = [Helper.createFormatter(code, "name").formatToParts(rate), codeFormatter.formatToParts(rate)];
+
+    if (codeFormatter.format(rate) !== symbolFormatter.format(rate)) {
+      formats.push(symbolFormatter.formatToParts(rate));
+    }
+
+    return {
+      code: code,
+      flag: Helper.getFlag(code),
+      formats: formats
+    };
+  }, []);
+
+  return currencies;
+};
+
+ReactDOM.render(React.createElement(App, null), document.getElementById("app"));
