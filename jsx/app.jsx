@@ -101,7 +101,7 @@ class App extends React.Component {
         <div className="jumbotron pt-3 pb-3 mb-3">
           <div className="row">
             <div className="col">
-              <h3>USD EXCHANGE RATES</h3>
+              <h3>USD Exchange Rates</h3>
             </div>
             <div className="col text-right">
               <Helper.FormattedDate
