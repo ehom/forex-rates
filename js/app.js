@@ -74,6 +74,26 @@ var App = function (_React$Component) {
       });
     }
   }, {
+    key: "clickCardView",
+    value: function clickCardView(event) {
+      console.debug("click Card View:", event);
+
+      this.setState({
+        cardView: true,
+        listView: false
+      });
+    }
+  }, {
+    key: "clickListView",
+    value: function clickListView(event) {
+      console.debug("click List View", event);
+
+      this.setState({
+        cardView: false,
+        listView: true
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       console.debug("render: table of formatted rates:", this.state.rates);
@@ -125,6 +145,25 @@ var App = function (_React$Component) {
               React.createElement(BlankRow, null)
             )
           )
+        ),
+        React.createElement(
+          "div",
+          { className: "container border mb-3" },
+          React.createElement(
+            "div",
+            { className: "form-check form-check-inline" },
+            React.createElement(RadioButton, { label: "Card View", checked: this.state.cardView, onClick: this.clickCardView.bind(this) })
+          ),
+          React.createElement(
+            "div",
+            { className: "form-check form-check-inline" },
+            React.createElement(RadioButton, { label: "List View", checked: this.state.listView, onClick: this.clickListView.bind(this) })
+          )
+        ),
+        React.createElement(
+          "div",
+          null,
+          rates
         )
       );
     }
