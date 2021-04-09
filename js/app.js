@@ -134,41 +134,33 @@ var App = function (_React$Component) {
 }(React.Component);
 
 var Instructions = function Instructions() {
-  var handleClick = function handleClick(event) {
-    // dismiss the alert by closing the parent of the button.
-    event.target.parentElement.parentElement.style.display = "none";
-  };
   var THINKING_FACE = "\uD83E\uDD14";
   var SLIGHTLY_SMILING = "\uD83D\uDE42";
 
-  var styling = { fontSize: "14pt" };
+  var message = "Note: The rate table is clickable " + THINKING_FACE + " Also, the page will update if you change the UI language of your browser " + SLIGHTLY_SMILING;
+
+  var _React$useState = React.useState(''),
+      _React$useState2 = _slicedToArray(_React$useState, 2),
+      text = _React$useState2[0],
+      setText = _React$useState2[1];
+
+  var clickHandler = function clickHandler(event) {
+    setText(text === '' ? message : '');
+  };
+  var stylingInner = { background: "white", fontSize: "14pt" };
   return React.createElement(
     "div",
-    {
-      className: "alert alert-light alert-dismissible fade show",
-      role: "alert",
-      style: styling
-    },
+    { className: "mb-2" },
     React.createElement(
       "button",
-      { type: "button", className: "close", onClick: handleClick },
-      React.createElement(
-        "span",
-        null,
-        "\xD7"
-      )
+      { className: "btn btn-primary mb-2", onClick: clickHandler },
+      "?"
     ),
-    " ",
     React.createElement(
-      "strong",
-      null,
-      "Note:"
-    ),
-    " The rate table is clickable ",
-    THINKING_FACE,
-    " Also, the page will update if you change the UI language of your browser",
-    " ",
-    SLIGHTLY_SMILING
+      "div",
+      { className: "container", style: stylingInner },
+      text
+    )
   );
 };
 
@@ -186,10 +178,10 @@ var TableRow = function TableRow(_ref2) {
 
   console.debug("entry:", entry);
 
-  var _React$useState = React.useState(0),
-      _React$useState2 = _slicedToArray(_React$useState, 2),
-      formatIndex = _React$useState2[0],
-      setFormatIndex = _React$useState2[1];
+  var _React$useState3 = React.useState(0),
+      _React$useState4 = _slicedToArray(_React$useState3, 2),
+      formatIndex = _React$useState4[0],
+      setFormatIndex = _React$useState4[1];
 
   var parts = entry.formats[formatIndex];
 
