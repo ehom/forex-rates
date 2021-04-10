@@ -98,8 +98,10 @@ class App extends React.Component {
 
     return (
       <div className="container">
-        <AppBar />
-        <div className="mt-5 pt-5">
+        <header>
+          <AppBar />
+        </header>
+        <main className="mt-5 pt-5">
           <table className="table table-hover table-dark">
             <tbody>
               <BlankRow />
@@ -107,7 +109,7 @@ class App extends React.Component {
               <BlankRow />
             </tbody>
           </table>
-        </div>
+        </main>
       </div>
     );
   }
