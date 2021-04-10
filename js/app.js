@@ -85,9 +85,13 @@ var App = function (_React$Component) {
       return React.createElement(
         "div",
         { className: "container" },
-        React.createElement(AppBar, null),
         React.createElement(
-          "div",
+          "header",
+          null,
+          React.createElement(AppBar, null)
+        ),
+        React.createElement(
+          "main",
           { className: "mt-5 pt-5" },
           React.createElement(
             "table",
