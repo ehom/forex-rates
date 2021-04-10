@@ -31,13 +31,8 @@ var App = function (_React$Component) {
     }, _this.fetchedRates = [], _this.handleLanguageChange = function (event) {
       console.debug("handleLanguageChange:", event);
 
-      var rates = Helper.createCurrencyList(currencyCodes, _this.fetchedRates);
-
-      console.debug("REcreated table of formatted rates:", rates);
-
       _this.setState({
-        date: _this.state.date,
-        rates: rates,
+        rates: Helper.createCurrencyList(currencyCodes, _this.fetchedRates),
         language: navigator.language
       });
     }, _temp), _possibleConstructorReturn(_this, _ret);
@@ -88,7 +83,7 @@ var App = function (_React$Component) {
         React.createElement(
           "header",
           null,
-          React.createElement(AppBar, null)
+          React.createElement(AppBar, { date: this.state.date })
         ),
         React.createElement(
           "main",
@@ -112,24 +107,37 @@ var App = function (_React$Component) {
   return App;
 }(React.Component);
 
-var AppBar = function AppBar() {
+var AppBar = function AppBar(_ref2) {
+  var date = _ref2.date;
+
   var styling = { fontSize: "14pt" };
   var THINKING_FACE = "\uD83E\uDD14";
   var SLIGHTLY_SMILING = "\uD83D\uDE42";
   var message1 = "The rate table is clickable " + THINKING_FACE;
   var message2 = "Also, the page will update if you change the UI language of your browser " + SLIGHTLY_SMILING;
 
+  console.debug("date:", date);
   return React.createElement(
     "nav",
     { className: "navbar navbar-light bg-light fixed-top" },
     React.createElement(
       "a",
-      { "class": " navbar-brand", href: "#" },
-      "USD Exchange Rates"
+      { className: " navbar-brand", href: "#" },
+      "USD Exchange Rates for",
+      " ",
+      React.createElement(Helper.FormattedDate, { locale: navigator.language, date: date })
     ),
     React.createElement(
       "button",
-      { className: "navbar-toggler", type: "button", "data-toggle": "collapse", "data-target": "#navbarSupportedContent", "aria-controls": "navbarSupportedContent", "aria-expanded": "false", "aria-label": "Toggle navigation" },
+      {
+        className: "navbar-toggler",
+        type: "button",
+        "data-toggle": "collapse",
+        "data-target": "#navbarSupportedContent",
+        "aria-controls": "navbarSupportedContent",
+        "aria-expanded": "false",
+        "aria-label": "Toggle navigation"
+      },
       React.createElement("span", { className: "navbar-toggler-icon" })
     ),
     React.createElement(
@@ -155,8 +163,8 @@ var BlankRow = function BlankRow() {
   );
 };
 
-var TableRow = function TableRow(_ref2) {
-  var entry = _ref2.entry;
+var TableRow = function TableRow(_ref3) {
+  var entry = _ref3.entry;
 
   console.debug("entry:", entry);
 
@@ -208,9 +216,9 @@ var TableRow = function TableRow(_ref2) {
 
 var Helper = Helper || {};
 
-Helper.FormattedDate = function (_ref3) {
-  var locale = _ref3.locale,
-      date = _ref3.date;
+Helper.FormattedDate = function (_ref4) {
+  var locale = _ref4.locale,
+      date = _ref4.date;
 
   if (date === undefined) {
     return React.createElement(React.Fragment, null);
