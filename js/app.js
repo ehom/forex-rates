@@ -225,9 +225,9 @@ Helper.FormattedDate = function (_ref4) {
   }
 
   var formatted = new Intl.DateTimeFormat(locale, {
-    weekday: "short",
+    weekday: "long",
     year: "numeric",
-    month: "short",
+    month: "long",
     day: "numeric"
   }).format(date);
 
