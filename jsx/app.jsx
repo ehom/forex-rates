@@ -87,14 +87,24 @@ class App extends React.Component {
   render() {
     console.debug("render: table of formatted rates:", this.state.rates);
 
+    if (this.state.date === undefined) {
+      return <React.Fragment></React.Fragment>;
+    }
+
     const tableRows = this.state.rates.map((entry) => (
       <TableRow entry={entry} key={entry.code} />
     ));
 
+    const styleFooter = {
+      color: "white",
+      fontSize: "14pt",
+      textAlign: "center"
+    };
+
     return (
       <div className="container">
         <header>
-        <AppBar date={this.state.date} />
+          <AppBar date={this.state.date} />
         </header>
         <main className="mt-5 pt-5">
           <table className="table table-hover table-dark">
@@ -105,6 +115,14 @@ class App extends React.Component {
             </tbody>
           </table>
         </main>
+        <footer style={styleFooter}>
+          Last updated on{" "}
+          <Helper.FormattedDateTime
+            date={this.state.date}
+            dateStyle="full"
+            timeStyle="short"
+          />
+        </footer>
       </div>
     );
   }
@@ -118,11 +136,12 @@ const AppBar = ({ date }) => {
   const message2 = `Also, the page will update if you change the UI language of your browser ${SLIGHTLY_SMILING}`;
 
   console.debug("date:", date);
+
   return (
     <nav className="navbar navbar-light bg-light fixed-top">
-      <a className=" navbar-brand" href="#">
+      <a className="navbar-brand" href="#">
         USD Exchange Rates for{" "}
-        <Helper.FormattedDate locale={navigator.language} date={date} />
+        <Helper.FormattedDateTime locale={navigator.language} date={date} dateStyle='full' />
       </a>
       <button
         className="navbar-toggler"
@@ -190,22 +209,31 @@ const TableRow = ({ entry }) => {
 
 var Helper = Helper || {};
 
-Helper.FormattedDate = ({ locale, date }) => {
-  if (date === undefined) {
+const DateStyle = {
+  short: { year: "numeric", month: "numeric", day: "numeric" },
+  medium: { year: "numeric", month: "short", day: "numeric" },
+  long: { year: "numeric", month: "long", day: "numeric" },
+  full: { weekday: "long", year: "numeric", month: "long", day: "numeric" }
+};
+
+Helper.FormattedDateTime = ({ locale, date, dateStyle, timeStyle }) => {
+  if (dateStyle === undefined) {
     return <React.Fragment></React.Fragment>;
   }
 
-  const formatted = new Intl.DateTimeFormat(locale, {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric"
-  }).format(date);
+  const options = DateStyle[dateStyle];
+
+  if (timeStyle) {
+    options.hour = "numeric";
+    options.minute = "numeric";
+  }
+
+  const formatted = new Intl.DateTimeFormat(locale, options).format(date);
 
   return <React.Fragment>{formatted}</React.Fragment>;
 };
 
-Helper.FormattedDate.defaultProps = {
+Helper.FormattedDateTime.defaultProps = {
   locale: navigator.language
 };
 
