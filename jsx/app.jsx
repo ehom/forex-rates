@@ -78,13 +78,8 @@ class App extends React.Component {
   handleLanguageChange = (event) => {
     console.debug("handleLanguageChange:", event);
 
-    const rates = Helper.createCurrencyList(currencyCodes, this.fetchedRates);
-
-    console.debug("REcreated table of formatted rates:", rates);
-
     this.setState({
-      date: this.state.date,
-      rates: rates,
+      rates: Helper.createCurrencyList(currencyCodes, this.fetchedRates),
       language: navigator.language
     });
   };
@@ -99,7 +94,7 @@ class App extends React.Component {
     return (
       <div className="container">
         <header>
-          <AppBar />
+        <AppBar date={this.state.date} />
         </header>
         <main className="mt-5 pt-5">
           <table className="table table-hover table-dark">
@@ -115,26 +110,40 @@ class App extends React.Component {
   }
 }
 
-const AppBar = () => {
-  const styling = {fontSize: "14pt"};
+const AppBar = ({ date }) => {
+  const styling = { fontSize: "14pt" };
   const THINKING_FACE = "\uD83E\uDD14";
   const SLIGHTLY_SMILING = "\ud83d\ude42";
   const message1 = `The rate table is clickable ${THINKING_FACE}`;
   const message2 = `Also, the page will update if you change the UI language of your browser ${SLIGHTLY_SMILING}`;
-  
+
+  console.debug("date:", date);
   return (
     <nav className="navbar navbar-light bg-light fixed-top">
-  <a class=" navbar-brand" href="#">USD Exchange Rates</a>
-  <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span className="navbar-toggler-icon"></span>
-  </button>
+      <a className=" navbar-brand" href="#">
+        USD Exchange Rates for{" "}
+        <Helper.FormattedDate locale={navigator.language} date={date} />
+      </a>
+      <button
+        className="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span className="navbar-toggler-icon"></span>
+      </button>
 
-  <div className="collapse navbar-collapse" id="navbarSupportedContent">
-    <span className="navbar-text" style={styling}>
-      {message1}<br />{message2}
-    </span>
-  </div>
-</nav>
+      <div className="collapse navbar-collapse" id="navbarSupportedContent">
+        <span className="navbar-text" style={styling}>
+          {message1}
+          <br />
+          {message2}
+        </span>
+      </div>
+    </nav>
   );
 };
 
