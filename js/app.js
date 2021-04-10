@@ -85,35 +85,10 @@ var App = function (_React$Component) {
       return React.createElement(
         "div",
         { className: "container" },
+        React.createElement(AppBar, null),
         React.createElement(
           "div",
-          { className: "jumbotron pt-3 pb-3 mb-3" },
-          React.createElement(
-            "div",
-            { className: "row" },
-            React.createElement(
-              "div",
-              { className: "col" },
-              React.createElement(
-                "h3",
-                null,
-                "USD Exchange Rates"
-              )
-            ),
-            React.createElement(
-              "div",
-              { className: "col text-right" },
-              React.createElement(Helper.FormattedDate, {
-                locale: this.state.language,
-                date: this.state.date
-              })
-            )
-          )
-        ),
-        React.createElement(Instructions, null),
-        React.createElement(
-          "div",
-          null,
+          { className: "mt-5 pt-5" },
           React.createElement(
             "table",
             { className: "table table-hover table-dark" },
@@ -133,33 +108,36 @@ var App = function (_React$Component) {
   return App;
 }(React.Component);
 
-var Instructions = function Instructions() {
+var AppBar = function AppBar() {
+  var styling = { fontSize: "14pt" };
   var THINKING_FACE = "\uD83E\uDD14";
   var SLIGHTLY_SMILING = "\uD83D\uDE42";
+  var message1 = "The rate table is clickable " + THINKING_FACE;
+  var message2 = "Also, the page will update if you change the UI language of your browser " + SLIGHTLY_SMILING;
 
-  var message = "Note: The rate table is clickable " + THINKING_FACE + " Also, the page will update if you change the UI language of your browser " + SLIGHTLY_SMILING;
-
-  var _React$useState = React.useState(''),
-      _React$useState2 = _slicedToArray(_React$useState, 2),
-      text = _React$useState2[0],
-      setText = _React$useState2[1];
-
-  var clickHandler = function clickHandler(event) {
-    setText(text === '' ? message : '');
-  };
-  var stylingInner = { background: "white", fontSize: "14pt" };
   return React.createElement(
-    "div",
-    { className: "mb-2" },
+    "nav",
+    { className: "navbar navbar-light bg-light fixed-top" },
+    React.createElement(
+      "a",
+      { "class": " navbar-brand", href: "#" },
+      "USD Exchange Rates"
+    ),
     React.createElement(
       "button",
-      { className: "btn btn-primary mb-2", onClick: clickHandler },
-      "?"
+      { className: "navbar-toggler", type: "button", "data-toggle": "collapse", "data-target": "#navbarSupportedContent", "aria-controls": "navbarSupportedContent", "aria-expanded": "false", "aria-label": "Toggle navigation" },
+      React.createElement("span", { className: "navbar-toggler-icon" })
     ),
     React.createElement(
       "div",
-      { className: "container", style: stylingInner },
-      text
+      { className: "collapse navbar-collapse", id: "navbarSupportedContent" },
+      React.createElement(
+        "span",
+        { className: "navbar-text", style: styling },
+        message1,
+        React.createElement("br", null),
+        message2
+      )
     )
   );
 };
@@ -178,10 +156,10 @@ var TableRow = function TableRow(_ref2) {
 
   console.debug("entry:", entry);
 
-  var _React$useState3 = React.useState(0),
-      _React$useState4 = _slicedToArray(_React$useState3, 2),
-      formatIndex = _React$useState4[0],
-      setFormatIndex = _React$useState4[1];
+  var _React$useState = React.useState(0),
+      _React$useState2 = _slicedToArray(_React$useState, 2),
+      formatIndex = _React$useState2[0],
+      setFormatIndex = _React$useState2[1];
 
   var parts = entry.formats[formatIndex];
 
