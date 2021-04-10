@@ -78,11 +78,8 @@ class App extends React.Component {
   handleLanguageChange = (event) => {
     console.debug("handleLanguageChange:", event);
 
-    const rates = Helper.createCurrencyList(currencyCodes, this.fetchedRates);
-
-    console.debug("REcreated table of formatted rates:", rates);
-
     this.setState({
+      rates: Helper.createCurrencyList(currencyCodes, this.fetchedRates),
       language: navigator.language
     });
   };
