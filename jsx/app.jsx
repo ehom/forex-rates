@@ -98,21 +98,8 @@ class App extends React.Component {
 
     return (
       <div className="container">
-        <div className="jumbotron pt-3 pb-3 mb-3">
-          <div className="row">
-            <div className="col">
-              <h3>USD EXCHANGE RATES</h3>
-            </div>
-            <div className="col text-right">
-              <Helper.FormattedDate
-                locale={this.state.language}
-                date={this.state.date}
-              />
-            </div>
-          </div>
-        </div>
-        <Instructions />
-        <div>
+        <AppBar />
+        <div className="mt-5 pt-5">
           <table className="table table-hover table-dark">
             <tbody>
               <BlankRow />
@@ -126,25 +113,26 @@ class App extends React.Component {
   }
 }
 
-const Instructions = () => {
+const AppBar = () => {
+  const styling = {fontSize: "14pt"};
   const THINKING_FACE = "\uD83E\uDD14";
   const SLIGHTLY_SMILING = "\ud83d\ude42";
-
-  const message = `Note: The rate table is clickable ${THINKING_FACE} Also, the page will update if you change the UI language of your browser ${SLIGHTLY_SMILING}`;
+  const message1 = `The rate table is clickable ${THINKING_FACE}`;
+  const message2 = `Also, the page will update if you change the UI language of your browser ${SLIGHTLY_SMILING}`;
   
-  const [text, setText] = React.useState('');
-  
-  const clickHandler = (event) => {
-    setText(text === '' ? message : '');
-  };
-  const stylingInner = {background: "white", fontSize: "14pt"};
   return (
-    <div className="mb-2">
-      <button className="btn btn-primary mb-2" onClick={clickHandler}>?</button>
-      <div className="container" style={stylingInner}>
-        {text}
-      </div>
-    </div>
+    <nav className="navbar navbar-light bg-light fixed-top">
+  <a class=" navbar-brand" href="#">USD Exchange Rates</a>
+  <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span className="navbar-toggler-icon"></span>
+  </button>
+
+  <div className="collapse navbar-collapse" id="navbarSupportedContent">
+    <span className="navbar-text" style={styling}>
+      {message1}<br />{message2}
+    </span>
+  </div>
+</nav>
   );
 };
 
