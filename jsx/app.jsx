@@ -196,9 +196,9 @@ Helper.FormattedDate = ({ locale, date }) => {
   }
 
   const formatted = new Intl.DateTimeFormat(locale, {
-    weekday: "short",
+    weekday: "long",
     year: "numeric",
-    month: "short",
+    month: "long",
     day: "numeric"
   }).format(date);
 
