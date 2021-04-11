@@ -143,8 +143,8 @@ var AppBar = function AppBar(_ref2) {
     "nav",
     { className: "navbar navbar-light bg-light fixed-top" },
     React.createElement(
-      "a",
-      { className: "navbar-brand", href: "#" },
+      "span",
+      { "class": "navbar-brand" },
       "USD Exchange Rates"
     ),
     React.createElement(
