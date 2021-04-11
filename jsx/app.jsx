@@ -140,8 +140,7 @@ const AppBar = ({ date }) => {
   return (
     <nav className="navbar navbar-light bg-light fixed-top">
       <a className="navbar-brand" href="#">
-        USD Exchange Rates for{" "}
-        <Helper.FormattedDateTime locale={navigator.language} date={date} dateStyle='full' />
+        USD Exchange Rates
       </a>
       <button
         className="navbar-toggler"
