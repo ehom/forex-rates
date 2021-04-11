@@ -145,9 +145,7 @@ var AppBar = function AppBar(_ref2) {
     React.createElement(
       "a",
       { className: "navbar-brand", href: "#" },
-      "USD Exchange Rates for",
-      " ",
-      React.createElement(Helper.FormattedDateTime, { locale: navigator.language, date: date, dateStyle: "full" })
+      "USD Exchange Rates"
     ),
     React.createElement(
       "button",
