@@ -139,9 +139,9 @@ const AppBar = ({ date }) => {
 
   return (
     <nav className="navbar navbar-light bg-light fixed-top">
-      <a className="navbar-brand" href="#">
+      <span class="navbar-brand">
         USD Exchange Rates
-      </a>
+      </span>
       <button
         className="navbar-toggler"
         type="button"
