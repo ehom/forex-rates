@@ -1,12 +1,7 @@
-body {
-  background-color: DarkBlue;
-  font-size: 20pt;
+html, body {
+  height: 100%;
 }
 
 .app-rate {
   color: yellow;
-}
-
-.app-flag {
-  font-size: 20pt;
 }
