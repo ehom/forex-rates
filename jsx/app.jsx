@@ -1,42 +1,112 @@
-const currencyCodes = [
-  "USD",
-  "EUR",
-  "JPY",
-  "GBP",
-  "AUD",
-  "CAD",
-  "CHF",
-  "CNY",
-  "HKD",
-  "NZD",
-  "SEK",
-  "KRW",
-  "SGD",
-  "NOK",
-  "MXN",
-  "INR",
-  "RUB",
-  "ZAR",
-  "TRY",
-  "BRL",
-  "TWD",
-  "DKK",
-  "PLN",
-  "THB",
-  "IDR",
-  "HUF",
-  "CZK",
-  "ILS",
-  "CLP",
-  "PHP",
-  "AED",
-  "COP",
-  "SAR",
-  "MYR",
-  "RON"
-];
+const HelpButton = () => {
+  return (
+    <React.Fragment>
+      <button
+        type="button"
+        class="btn btn-primary"
+        data-toggle="modal"
+        data-target="#exampleModal"
+      >
+        Help
+      </button>
+      <MessageBox id="exampleModal" />
+    </React.Fragment>
+  );
+};
 
-class App extends React.Component {
+// Todo add content
+const MessageBox = ({ id }) => {
+  return (
+    <div
+      class="modal fade"
+      id={id}
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              About This Page
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <ul>
+              <li>
+                The current UI language is{" "}
+                <span class="badge badge-primary">{navigator.language}</span>
+              </li>
+              <li>
+                This page will automatically refresh if you change the UI
+                language in your browser.
+              </li>
+              <li>Click on each of the exchange rates and see what happens.</li>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+class HomePage extends React.Component {
+  currencyCodes = [
+    "USD",
+    "EUR",
+    "JPY",
+    "GBP",
+    "AUD",
+    "CAD",
+    "CHF",
+    "CNY",
+    "HKD",
+    "NZD",
+    "SEK",
+    "KRW",
+    "SGD",
+    "NOK",
+    "MXN",
+    "INR",
+    "RUB",
+    "ZAR",
+    "TRY",
+    "BRL",
+    "TWD",
+    "DKK",
+    "PLN",
+    "THB",
+    "IDR",
+    "HUF",
+    "CZK",
+    "ILS",
+    "CLP",
+    "PHP",
+    "AED",
+    "COP",
+    "SAR",
+    "MYR",
+    "RON"
+  ];
+
   state = {
     date: undefined,
     rates: [],
@@ -63,7 +133,7 @@ class App extends React.Component {
 
         this.fetchedRates = json.quote;
 
-        const rates = Helper.createCurrencyList(currencyCodes, json.quote);
+        const rates = Helper.createCurrencyList(this.currencyCodes, json.quote);
 
         console.debug("created table of formatted rates:", rates);
 
@@ -78,8 +148,12 @@ class App extends React.Component {
   handleLanguageChange = (event) => {
     console.debug("handleLanguageChange:", event);
 
+    const rates = Helper.createCurrencyList(currencyCodes, this.fetchedRates);
+
+    console.debug("REcreated table of formatted rates:", rates);
+
     this.setState({
-      rates: Helper.createCurrencyList(currencyCodes, this.fetchedRates),
+      rates: rates,
       language: navigator.language
     });
   };
@@ -101,12 +175,14 @@ class App extends React.Component {
       textAlign: "center"
     };
 
+    const pageStyle = {
+      fontSize: "20pt",
+      background: "DarkBlue"
+    };
+
     return (
-      <div className="container">
-        <header>
-          <AppBar date={this.state.date} />
-        </header>
-        <main className="mt-5 pt-5">
+      <div style={pageStyle}>
+        <div className="container pt-5 pb-5">
           <table className="table table-hover table-dark">
             <tbody>
               <BlankRow />
@@ -114,56 +190,19 @@ class App extends React.Component {
               <BlankRow />
             </tbody>
           </table>
-        </main>
-        <footer style={styleFooter}>
-          Last updated on{" "}
-          <Helper.FormattedDateTime
-            date={this.state.date}
-            dateStyle="full"
-            timeStyle="short"
-          />
-        </footer>
+          <div style={styleFooter}>
+            Last updated on{" "}
+            <Helper.FormattedDateTime
+              date={this.state.date}
+              dateStyle="full"
+              timeStyle="short"
+            />
+          </div>
+        </div>
       </div>
     );
   }
 }
-
-const AppBar = ({ date }) => {
-  const styling = { fontSize: "14pt" };
-  const THINKING_FACE = "\uD83E\uDD14";
-  const SLIGHTLY_SMILING = "\ud83d\ude42";
-  const message1 = `The rate table is clickable ${THINKING_FACE}`;
-  const message2 = `Also, the page will update if you change the UI language of your browser ${SLIGHTLY_SMILING}`;
-
-  console.debug("date:", date);
-
-  return (
-    <nav className="navbar navbar-light bg-light fixed-top">
-      <span class="navbar-brand">
-        USD Exchange Rates
-      </span>
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span className="navbar-toggler-icon"></span>
-      </button>
-
-      <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <span className="navbar-text" style={styling}>
-          {message1}
-          <br />
-          {message2}
-        </span>
-      </div>
-    </nav>
-  );
-};
 
 const BlankRow = () => {
   return (
@@ -186,7 +225,11 @@ const TableRow = ({ entry }) => {
   const formatted = parts.map((part) => {
     const key = part.id + " " + part.value;
     if (part.type !== "currency") {
-      return <span className="app-rate" key={key}>{part.value}</span>;
+      return (
+        <span className="app-rate" key={key}>
+          {part.value}
+        </span>
+      );
     }
     return <React.Fragment key={key}>{part.value}</React.Fragment>;
   });
@@ -278,7 +321,7 @@ const FLAGS = {
 };
 
 Helper.getFlag = (code) => {
-  return (code in FLAGS) ? FLAGS[code] : FLAGS["EUR"];
+  return code in FLAGS ? FLAGS[code] : FLAGS["EUR"];
 };
 
 Helper.createFormatter = (code, currencyDisplay) => {
@@ -313,6 +356,26 @@ Helper.createCurrencyList = (codes, rates) => {
   }, []);
 
   return currencies;
+};
+
+const App = () => {
+  const navbarStyling = { background: "LightGrey" };
+  return (
+    <div>
+      <nav
+        className="nav-bar navbar-expand-lg navbar-light pl-3"
+        style={navbarStyling}
+      >
+        <span className="navbar-brand">USD Exchange Rates</span>
+        <span className="float-right">
+          <HelpButton />
+        </span>
+      </nav>
+      <main>
+        <HomePage />
+      </main>
+    </div>
+  );
 };
 
 ReactDOM.render(<App />, document.getElementById("app"));
