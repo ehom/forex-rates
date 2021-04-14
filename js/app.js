@@ -8,37 +8,147 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var currencyCodes = ["USD", "EUR", "JPY", "GBP", "AUD", "CAD", "CHF", "CNY", "HKD", "NZD", "SEK", "KRW", "SGD", "NOK", "MXN", "INR", "RUB", "ZAR", "TRY", "BRL", "TWD", "DKK", "PLN", "THB", "IDR", "HUF", "CZK", "ILS", "CLP", "PHP", "AED", "COP", "SAR", "MYR", "RON"];
+var HelpButton = function HelpButton() {
+  return React.createElement(
+    React.Fragment,
+    null,
+    React.createElement(
+      "button",
+      {
+        type: "button",
+        "class": "btn btn-primary",
+        "data-toggle": "modal",
+        "data-target": "#exampleModal"
+      },
+      "Help"
+    ),
+    React.createElement(MessageBox, { id: "exampleModal" })
+  );
+};
 
-var App = function (_React$Component) {
-  _inherits(App, _React$Component);
+// Todo add content
+var MessageBox = function MessageBox(_ref) {
+  var id = _ref.id;
 
-  function App() {
-    var _ref;
+  return React.createElement(
+    "div",
+    {
+      "class": "modal fade",
+      id: id,
+      tabindex: "-1",
+      role: "dialog",
+      "aria-labelledby": "exampleModalLabel",
+      "aria-hidden": "true"
+    },
+    React.createElement(
+      "div",
+      { "class": "modal-dialog", role: "document" },
+      React.createElement(
+        "div",
+        { "class": "modal-content" },
+        React.createElement(
+          "div",
+          { "class": "modal-header" },
+          React.createElement(
+            "h5",
+            { "class": "modal-title", id: "exampleModalLabel" },
+            "About This Page"
+          ),
+          React.createElement(
+            "button",
+            {
+              type: "button",
+              "class": "close",
+              "data-dismiss": "modal",
+              "aria-label": "Close"
+            },
+            React.createElement(
+              "span",
+              { "aria-hidden": "true" },
+              "\xD7"
+            )
+          )
+        ),
+        React.createElement(
+          "div",
+          { "class": "modal-body" },
+          React.createElement(
+            "ul",
+            null,
+            React.createElement(
+              "li",
+              null,
+              "The current UI language is",
+              " ",
+              React.createElement(
+                "span",
+                { "class": "badge badge-primary" },
+                navigator.language
+              )
+            ),
+            React.createElement(
+              "li",
+              null,
+              "This page will automatically refresh if you change the UI language in your browser."
+            ),
+            React.createElement(
+              "li",
+              null,
+              "Click on each of the exchange rates and see what happens."
+            )
+          )
+        ),
+        React.createElement(
+          "div",
+          { "class": "modal-footer" },
+          React.createElement(
+            "button",
+            {
+              type: "button",
+              "class": "btn btn-secondary",
+              "data-dismiss": "modal"
+            },
+            "Close"
+          )
+        )
+      )
+    )
+  );
+};
+
+var HomePage = function (_React$Component) {
+  _inherits(HomePage, _React$Component);
+
+  function HomePage() {
+    var _ref2;
 
     var _temp, _this, _ret;
 
-    _classCallCheck(this, App);
+    _classCallCheck(this, HomePage);
 
     for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = App.__proto__ || Object.getPrototypeOf(App)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref2 = HomePage.__proto__ || Object.getPrototypeOf(HomePage)).call.apply(_ref2, [this].concat(args))), _this), _this.currencyCodes = ["USD", "EUR", "JPY", "GBP", "AUD", "CAD", "CHF", "CNY", "HKD", "NZD", "SEK", "KRW", "SGD", "NOK", "MXN", "INR", "RUB", "ZAR", "TRY", "BRL", "TWD", "DKK", "PLN", "THB", "IDR", "HUF", "CZK", "ILS", "CLP", "PHP", "AED", "COP", "SAR", "MYR", "RON"], _this.state = {
       date: undefined,
       rates: [],
       language: navigator.language
     }, _this.fetchedRates = [], _this.handleLanguageChange = function (event) {
       console.debug("handleLanguageChange:", event);
 
+      var rates = Helper.createCurrencyList(currencyCodes, _this.fetchedRates);
+
+      console.debug("REcreated table of formatted rates:", rates);
+
       _this.setState({
-        rates: Helper.createCurrencyList(currencyCodes, _this.fetchedRates),
+        rates: rates,
         language: navigator.language
       });
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
-  _createClass(App, [{
+  _createClass(HomePage, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
@@ -56,7 +166,7 @@ var App = function (_React$Component) {
 
         _this2.fetchedRates = json.quote;
 
-        var rates = Helper.createCurrencyList(currencyCodes, json.quote);
+        var rates = Helper.createCurrencyList(_this2.currencyCodes, json.quote);
 
         console.debug("created table of formatted rates:", rates);
 
@@ -87,17 +197,17 @@ var App = function (_React$Component) {
         textAlign: "center"
       };
 
+      var pageStyle = {
+        fontSize: "20pt",
+        background: "DarkBlue"
+      };
+
       return React.createElement(
         "div",
-        { className: "container" },
+        { style: pageStyle },
         React.createElement(
-          "header",
-          null,
-          React.createElement(AppBar, { date: this.state.date })
-        ),
-        React.createElement(
-          "main",
-          { className: "mt-5 pt-5" },
+          "div",
+          { className: "container pt-5 pb-5" },
           React.createElement(
             "table",
             { className: "table table-hover table-dark" },
@@ -108,71 +218,25 @@ var App = function (_React$Component) {
               tableRows,
               React.createElement(BlankRow, null)
             )
+          ),
+          React.createElement(
+            "div",
+            { style: styleFooter },
+            "Last updated on",
+            " ",
+            React.createElement(Helper.FormattedDateTime, {
+              date: this.state.date,
+              dateStyle: "full",
+              timeStyle: "short"
+            })
           )
-        ),
-        React.createElement(
-          "footer",
-          { style: styleFooter },
-          "Last updated on",
-          " ",
-          React.createElement(Helper.FormattedDateTime, {
-            date: this.state.date,
-            dateStyle: "full",
-            timeStyle: "short"
-          })
         )
       );
     }
   }]);
 
-  return App;
+  return HomePage;
 }(React.Component);
-
-var AppBar = function AppBar(_ref2) {
-  var date = _ref2.date;
-
-  var styling = { fontSize: "14pt" };
-  var THINKING_FACE = "\uD83E\uDD14";
-  var SLIGHTLY_SMILING = "\uD83D\uDE42";
-  var message1 = "The rate table is clickable " + THINKING_FACE;
-  var message2 = "Also, the page will update if you change the UI language of your browser " + SLIGHTLY_SMILING;
-
-  console.debug("date:", date);
-
-  return React.createElement(
-    "nav",
-    { className: "navbar navbar-light bg-light fixed-top" },
-    React.createElement(
-      "span",
-      { "class": "navbar-brand" },
-      "USD Exchange Rates"
-    ),
-    React.createElement(
-      "button",
-      {
-        className: "navbar-toggler",
-        type: "button",
-        "data-toggle": "collapse",
-        "data-target": "#navbarSupportedContent",
-        "aria-controls": "navbarSupportedContent",
-        "aria-expanded": "false",
-        "aria-label": "Toggle navigation"
-      },
-      React.createElement("span", { className: "navbar-toggler-icon" })
-    ),
-    React.createElement(
-      "div",
-      { className: "collapse navbar-collapse", id: "navbarSupportedContent" },
-      React.createElement(
-        "span",
-        { className: "navbar-text", style: styling },
-        message1,
-        React.createElement("br", null),
-        message2
-      )
-    )
-  );
-};
 
 var BlankRow = function BlankRow() {
   return React.createElement(
@@ -347,6 +411,36 @@ Helper.createCurrencyList = function (codes, rates) {
   }, []);
 
   return currencies;
+};
+
+var App = function App() {
+  var navbarStyling = { background: "LightGrey" };
+  return React.createElement(
+    "div",
+    null,
+    React.createElement(
+      "nav",
+      {
+        className: "nav-bar navbar-expand-lg navbar-light pl-3",
+        style: navbarStyling
+      },
+      React.createElement(
+        "span",
+        { className: "navbar-brand" },
+        "USD Exchange Rates"
+      ),
+      React.createElement(
+        "span",
+        { className: "float-right" },
+        React.createElement(HelpButton, null)
+      )
+    ),
+    React.createElement(
+      "main",
+      null,
+      React.createElement(HomePage, null)
+    )
+  );
 };
 
 ReactDOM.render(React.createElement(App, null), document.getElementById("app"));
