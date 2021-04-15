@@ -3,7 +3,7 @@ const HelpButton = () => {
     <React.Fragment>
       <button
         type="button"
-        class="btn btn-primary"
+        className="btn btn-primary"
         data-toggle="modal"
         data-target="#exampleModal"
       >
@@ -18,33 +18,33 @@ const HelpButton = () => {
 const MessageBox = ({ id }) => {
   return (
     <div
-      class="modal fade"
+      className="modal fade"
       id={id}
-      tabindex="-1"
+      tabIndex="-1"
       role="dialog"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">
+      <div className="modal-dialog" role="document">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title" id="exampleModalLabel">
               About This Page
             </h5>
             <button
               type="button"
-              class="close"
+              className="close"
               data-dismiss="modal"
               aria-label="Close"
             >
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
+          <div className="modal-body">
             <ul>
               <li>
                 The current UI language is{" "}
-                <span class="badge badge-primary">{navigator.language}</span>
+                <span className="badge badge-primary">{navigator.language}</span>
               </li>
               <li>
                 This page will automatically refresh if you change the UI
@@ -53,10 +53,10 @@ const MessageBox = ({ id }) => {
               <li>Click on each of the exchange rates and see what happens.</li>
             </ul>
           </div>
-          <div class="modal-footer">
+          <div className="modal-footer">
             <button
               type="button"
-              class="btn btn-secondary"
+              className="btn btn-secondary"
               data-dismiss="modal"
             >
               Close
