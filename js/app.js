@@ -16,7 +16,7 @@ var HelpButton = function HelpButton() {
       "button",
       {
         type: "button",
-        "class": "btn btn-primary",
+        className: "btn btn-primary",
         "data-toggle": "modal",
         "data-target": "#exampleModal"
       },
@@ -33,32 +33,32 @@ var MessageBox = function MessageBox(_ref) {
   return React.createElement(
     "div",
     {
-      "class": "modal fade",
+      className: "modal fade",
       id: id,
-      tabindex: "-1",
+      tabIndex: "-1",
       role: "dialog",
       "aria-labelledby": "exampleModalLabel",
       "aria-hidden": "true"
     },
     React.createElement(
       "div",
-      { "class": "modal-dialog", role: "document" },
+      { className: "modal-dialog", role: "document" },
       React.createElement(
         "div",
-        { "class": "modal-content" },
+        { className: "modal-content" },
         React.createElement(
           "div",
-          { "class": "modal-header" },
+          { className: "modal-header" },
           React.createElement(
             "h5",
-            { "class": "modal-title", id: "exampleModalLabel" },
+            { className: "modal-title", id: "exampleModalLabel" },
             "About This Page"
           ),
           React.createElement(
             "button",
             {
               type: "button",
-              "class": "close",
+              className: "close",
               "data-dismiss": "modal",
               "aria-label": "Close"
             },
@@ -71,7 +71,7 @@ var MessageBox = function MessageBox(_ref) {
         ),
         React.createElement(
           "div",
-          { "class": "modal-body" },
+          { className: "modal-body" },
           React.createElement(
             "ul",
             null,
@@ -82,7 +82,7 @@ var MessageBox = function MessageBox(_ref) {
               " ",
               React.createElement(
                 "span",
-                { "class": "badge badge-primary" },
+                { className: "badge badge-primary" },
                 navigator.language
               )
             ),
@@ -100,12 +100,12 @@ var MessageBox = function MessageBox(_ref) {
         ),
         React.createElement(
           "div",
-          { "class": "modal-footer" },
+          { className: "modal-footer" },
           React.createElement(
             "button",
             {
               type: "button",
-              "class": "btn btn-secondary",
+              className: "btn btn-secondary",
               "data-dismiss": "modal"
             },
             "Close"
