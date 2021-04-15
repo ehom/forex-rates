@@ -8,119 +8,11 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var HelpButton = function HelpButton() {
-  return React.createElement(
-    React.Fragment,
-    null,
-    React.createElement(
-      "button",
-      {
-        type: "button",
-        className: "btn btn-primary",
-        "data-toggle": "modal",
-        "data-target": "#exampleModal"
-      },
-      "Help"
-    ),
-    React.createElement(MessageBox, { id: "exampleModal" })
-  );
-};
-
-// Todo add content
-var MessageBox = function MessageBox(_ref) {
-  var id = _ref.id;
-
-  return React.createElement(
-    "div",
-    {
-      className: "modal fade",
-      id: id,
-      tabIndex: "-1",
-      role: "dialog",
-      "aria-labelledby": "exampleModalLabel",
-      "aria-hidden": "true"
-    },
-    React.createElement(
-      "div",
-      { className: "modal-dialog", role: "document" },
-      React.createElement(
-        "div",
-        { className: "modal-content" },
-        React.createElement(
-          "div",
-          { className: "modal-header" },
-          React.createElement(
-            "h5",
-            { className: "modal-title", id: "exampleModalLabel" },
-            "About This Page"
-          ),
-          React.createElement(
-            "button",
-            {
-              type: "button",
-              className: "close",
-              "data-dismiss": "modal",
-              "aria-label": "Close"
-            },
-            React.createElement(
-              "span",
-              { "aria-hidden": "true" },
-              "\xD7"
-            )
-          )
-        ),
-        React.createElement(
-          "div",
-          { className: "modal-body" },
-          React.createElement(
-            "ul",
-            null,
-            React.createElement(
-              "li",
-              null,
-              "The current UI language is",
-              " ",
-              React.createElement(
-                "span",
-                { className: "badge badge-primary" },
-                navigator.language
-              )
-            ),
-            React.createElement(
-              "li",
-              null,
-              "This page will automatically refresh if you change the UI language in your browser."
-            ),
-            React.createElement(
-              "li",
-              null,
-              "Click on each of the exchange rates and see what happens."
-            )
-          )
-        ),
-        React.createElement(
-          "div",
-          { className: "modal-footer" },
-          React.createElement(
-            "button",
-            {
-              type: "button",
-              className: "btn btn-secondary",
-              "data-dismiss": "modal"
-            },
-            "Close"
-          )
-        )
-      )
-    )
-  );
-};
-
 var HomePage = function (_React$Component) {
   _inherits(HomePage, _React$Component);
 
   function HomePage() {
-    var _ref2;
+    var _ref;
 
     var _temp, _this, _ret;
 
@@ -130,7 +22,7 @@ var HomePage = function (_React$Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref2 = HomePage.__proto__ || Object.getPrototypeOf(HomePage)).call.apply(_ref2, [this].concat(args))), _this), _this.currencyCodes = ["USD", "EUR", "JPY", "GBP", "AUD", "CAD", "CHF", "CNY", "HKD", "NZD", "SEK", "KRW", "SGD", "NOK", "MXN", "INR", "RUB", "ZAR", "TRY", "BRL", "TWD", "DKK", "PLN", "THB", "IDR", "HUF", "CZK", "ILS", "CLP", "PHP", "AED", "COP", "SAR", "MYR", "RON"], _this.state = {
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = HomePage.__proto__ || Object.getPrototypeOf(HomePage)).call.apply(_ref, [this].concat(args))), _this), _this.currencyCodes = ["USD", "EUR", "JPY", "GBP", "AUD", "CAD", "CHF", "CNY", "HKD", "NZD", "SEK", "KRW", "SGD", "NOK", "MXN", "INR", "RUB", "ZAR", "TRY", "BRL", "TWD", "DKK", "PLN", "THB", "IDR", "HUF", "CZK", "ILS", "CLP", "PHP", "AED", "COP", "SAR", "MYR", "RON"], _this.state = {
       date: undefined,
       rates: [],
       language: navigator.language
@@ -247,8 +139,8 @@ var BlankRow = function BlankRow() {
   );
 };
 
-var TableRow = function TableRow(_ref3) {
-  var entry = _ref3.entry;
+var TableRow = function TableRow(_ref2) {
+  var entry = _ref2.entry;
 
   console.debug("entry:", entry);
 
@@ -307,11 +199,11 @@ var DateStyle = {
   full: { weekday: "long", year: "numeric", month: "long", day: "numeric" }
 };
 
-Helper.FormattedDateTime = function (_ref4) {
-  var locale = _ref4.locale,
-      date = _ref4.date,
-      dateStyle = _ref4.dateStyle,
-      timeStyle = _ref4.timeStyle;
+Helper.FormattedDateTime = function (_ref3) {
+  var locale = _ref3.locale,
+      date = _ref3.date,
+      dateStyle = _ref3.dateStyle,
+      timeStyle = _ref3.timeStyle;
 
   if (dateStyle === undefined) {
     return React.createElement(React.Fragment, null);

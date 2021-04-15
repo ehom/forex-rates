@@ -1,125 +1,107 @@
-var CardView = function CardView(_ref) {
-  var rates = _ref.rates;
+var HelpButton = function HelpButton() {
+  return React.createElement(
+    React.Fragment,
+    null,
+    React.createElement(
+      "button",
+      {
+        type: "button",
+        className: "btn btn-primary",
+        "data-toggle": "modal",
+        "data-target": "#exampleModal"
+      },
+      "Help"
+    ),
+    React.createElement(MessageBox, { id: "exampleModal" })
+  );
+};
 
-  var currencyCodes = function currencyCodes(object) {
-    var currencies = Object.keys(object);
-    currencies.sort();
-    return currencies;
-  };
+// Todo add content
+var MessageBox = function MessageBox(_ref) {
+  var id = _ref.id;
 
-  var rows = [];
-
-  var codes = currencyCodes(rates);
-  for (; codes.length;) {
-    rows.push(codes.splice(0, 3));
-  }
-
-  var formattedRows = rows.map(function (row) {
-    var formattedColumns = row.map(function (code) {
-      return React.createElement(
+  return React.createElement(
+    "div",
+    {
+      className: "modal fade",
+      id: id,
+      tabIndex: "-1",
+      role: "dialog",
+      "aria-labelledby": "exampleModalLabel",
+      "aria-hidden": "true"
+    },
+    React.createElement(
+      "div",
+      { className: "modal-dialog", role: "document" },
+      React.createElement(
         "div",
-        { className: "col-sm-4" },
+        { className: "modal-content" },
         React.createElement(
-          "table",
-          { className: "table table-hover" },
+          "div",
+          { className: "modal-header" },
           React.createElement(
-            "tbody",
+            "h5",
+            { className: "modal-title", id: "exampleModalLabel" },
+            "About This Page"
+          ),
+          React.createElement(
+            "button",
+            {
+              type: "button",
+              className: "close",
+              "data-dismiss": "modal",
+              "aria-label": "Close"
+            },
+            React.createElement(
+              "span",
+              { "aria-hidden": "true" },
+              "\xD7"
+            )
+          )
+        ),
+        React.createElement(
+          "div",
+          { className: "modal-body" },
+          React.createElement(
+            "ul",
             null,
             React.createElement(
-              "tr",
+              "li",
               null,
+              "The current UI language is",
+              " ",
               React.createElement(
-                "td",
-                { className: "text-center" },
-                React.createElement(CurrencyFormat, { locale: "en", displayType: "name", currencyCode: code, value: rates[code] })
+                "span",
+                { className: "badge badge-primary" },
+                navigator.language
               )
             ),
             React.createElement(
-              "tr",
+              "li",
               null,
-              React.createElement(
-                "td",
-                { className: "text-center" },
-                React.createElement(CurrencyFormat, { locale: "en", displayType: "code", currencyCode: code, value: rates[code] })
-              )
+              "This page will automatically refresh if you change the UI language in your browser."
+            ),
+            React.createElement(
+              "li",
+              null,
+              "Click on each of the exchange rates and see what happens."
             )
           )
+        ),
+        React.createElement(
+          "div",
+          { className: "modal-footer" },
+          React.createElement(
+            "button",
+            {
+              type: "button",
+              className: "btn btn-secondary",
+              "data-dismiss": "modal"
+            },
+            "Close"
+          )
         )
-      );
-    });
-
-    return React.createElement(
-      "div",
-      { className: "row" },
-      formattedColumns
-    );
-  });
-
-  return React.createElement(
-    React.Fragment,
-    null,
-    formattedRows
+      )
+    )
   );
-};
-
-var Motd = function Motd(_ref2) {
-  var date = _ref2.date;
-
-  return React.createElement(
-    "p",
-    null,
-    "Here are the exchange rates for ",
-    React.createElement(
-      "strong",
-      null,
-      date
-    ),
-    ":"
-  );
-};
-
-Motd.defaultProps = {
-  date: '00/00/0000'
-};
-
-var CurrencyFormat = function CurrencyFormat(_ref3) {
-  var locale = _ref3.locale,
-      displayType = _ref3.displayType,
-      currencyCode = _ref3.currencyCode,
-      value = _ref3.value;
-
-  var formatOptions = {
-    style: 'currency',
-    currencyDisplay: displayType,
-    currency: currencyCode
-  };
-
-  var parts = new Intl.NumberFormat(locale, formatOptions).formatToParts(value);
-  var formatted = parts.map(function (element) {
-    if (element['type'] !== 'currency') {
-      return React.createElement(
-        "span",
-        { className: "digit-display" },
-        element['value']
-      );
-    }
-    return React.createElement(
-      React.Fragment,
-      null,
-      element['value']
-    );
-  });
-
-  return React.createElement(
-    React.Fragment,
-    null,
-    formatted
-  );
-};
-
-CurrencyFormat.defaultProps = {
-  locale: 'en',
-  displayType: 'name',
-  currencyCode: 'USD',
-  value: '0.00'
 };
