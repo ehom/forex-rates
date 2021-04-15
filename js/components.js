@@ -68,23 +68,24 @@ var MessageBox = function MessageBox(_ref) {
             React.createElement(
               "li",
               null,
+              "The main page displays the most frequently traded currencies."
+            ),
+            React.createElement(
+              "li",
+              null,
+              "Click on each currency to see its formats."
+            ),
+            React.createElement(
+              "li",
+              null,
               "The current UI language is",
               " ",
               React.createElement(
                 "span",
                 { className: "badge badge-primary" },
                 navigator.language
-              )
-            ),
-            React.createElement(
-              "li",
-              null,
-              "This page will automatically refresh if you change the UI language in your browser."
-            ),
-            React.createElement(
-              "li",
-              null,
-              "Click on each of the exchange rates and see what happens."
+              ),
+              ". If you change the UI language in your browser, the main page will automatically refresh."
             )
           )
         ),
