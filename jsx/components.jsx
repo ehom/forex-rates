@@ -42,15 +42,12 @@ const MessageBox = ({ id }) => {
           </div>
           <div className="modal-body">
             <ul>
+              <li>The main page displays the most frequently traded currencies.</li>
+              <li>Click on each currency to see its formats.</li>
               <li>
                 The current UI language is{" "}
-                <span className="badge badge-primary">{navigator.language}</span>
+                <span className="badge badge-primary">{navigator.language}</span>. If you change the UI language in your browser, the main page will automatically refresh.
               </li>
-              <li>
-                This page will automatically refresh if you change the UI
-                language in your browser.
-              </li>
-              <li>Click on each of the exchange rates and see what happens.</li>
             </ul>
           </div>
           <div className="modal-footer">
